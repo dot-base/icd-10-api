@@ -1,0 +1,54 @@
+{
+  "name": "icd-10-api",
+  "description": "API to search the 10th revision of the International Statistical Classification of Diseases Database.",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon --watch 'src/**/*' -e ts --exec 'npm run watch'",
+    "watch": "npm run lint && npm run prettier && npm run development",
+    "lint": "eslint 'src/**' --ext .ts --fix",
+    "prettier": "prettier --write 'src/**/*'",
+    "development": "node --inspect=9229 -r tsconfig-paths/register -r ts-node/register src/server.ts",
+    "build": "tsc",
+    "production": "node -r tsconfig-paths/register build/server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "tsconfig-paths": "^3.9.0",
+    "tslib": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.6",
+    "@types/express": "^4.17.7",
+    "eslint": "^7.5.0",
+    "@typescript-eslint/parser": "^3.7.0",
+    "@typescript-eslint/eslint-plugin": "^3.7.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.0.5",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7"
+  },
+  "eslintConfig": {
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "sourceType": "module"
+    },
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "extends": [
+      "plugin:@typescript-eslint/recommended",
+      "prettier",
+      "prettier/@typescript-eslint"
+    ],
+    "env": {
+      "es6": true,
+      "node": true
+    }
+  }
+}

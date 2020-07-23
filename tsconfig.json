@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "outDir": "./build",
+    "esModuleInterop": true,
+    "strict": true,
+    "module": "commonjs",
+    "target": "es5",
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*", "build/*"]
+    }
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
+}
