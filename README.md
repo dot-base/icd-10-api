@@ -2,7 +2,6 @@
 API to search the german version of the 10th revision of the International Statistical Classification of Diseases Database. 
 
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/dot-base/icd-10-api)](https://github.com/dot-base/icd-10-api/releases)
-[![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/dotbase/icd-10-api)](https://hub.docker.com/r/dotbase/icd-10-api)
 
 
 ## Quick Nav
@@ -18,7 +17,7 @@ You can find our [API documentation at Spotlight](https://dotbase.stoplight.io/d
 ## Production Deployment
 Want an ICD 10 api of your own? The easiest way is to deploy our docker container. Just follow the steps below to get started.
 
-[![Docker Build Status](https://img.shields.io/badge/%E2%9D%A4%EF%B8%8F-We%20love%20Docker-blue)](https://hub.docker.com/u/dotbase)
+[![Docker Build Status](https://img.shields.io/badge/We%20love-Docker-blue?style=flat&logo=Docker)](https://github.com/orgs/dot-base/packages)
 
 
 ### Requirements
