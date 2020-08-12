@@ -1,39 +1,59 @@
-import * as r4Codesystem from "../model/fhirR4Codesystem"
+import * as r4Codesystem from "../model/ICD10gmCodesystem";
 import Fuse from "fuse.js";
+import { ICodeSystem_Concept } from "@ahryman40k/ts-fhir-types/lib/R4";
 
+export abstract class Filter {
 
+  static search(terms: string[]): Fuse.FuseResult<ICodeSystem_Concept>[] { return [] };
+  static setQuery(queryStr: string[] | string) { };
 
-class Filter {
-  static filterICD(str: string): string {
-    const keys = ["code"];
-    let query = [];
-    if (!Filter.isICD10Code(str)) {
-      keys.push("definition");
-      query = [{ code: "=" + str }, { definition: "'" + str }];
-    } else query = [{ code: "=" + str }];
+  static getQueryStringFuzzyMatchAND(searchTerms: string[]): string {
+    let queryStr = "";
+    searchTerms.forEach((term) => {
+      queryStr += term + " ";
+    });
+    return queryStr;
+  }
 
-    const base = r4Codesystem.ICD10gm.codesystem?.concept ? r4Codesystem.ICD10gm.codesystem.concept : [];
-    const options = {
+  static getQueryStringExactMatchOR(searchTerms: string[]): string {
+    let queryStr = "=";
+    searchTerms.forEach((term) => {
+      queryStr += term + " | ";
+    });
+    return queryStr;
+  }
+
+  static doSearch(
+    keys: Fuse.FuseOptionKeyObject[],
+    query: Fuse.Expression[]
+  ): Fuse.FuseResult<ICodeSystem_Concept>[] {
+    const base = r4Codesystem.ICD10gm.codesystemPrefilteredText?.concept
+      ? r4Codesystem.ICD10gm.codesystemPrefilteredText.concept
+      : [];
+
+    const options = Filter.getFuseOptions(keys);
+    const index = Fuse.createIndex(keys, base);
+    const fuse = new Fuse(base, options, index);
+    const res: Fuse.FuseResult<ICodeSystem_Concept>[] = fuse.search({
+      $or: query,
+    });
+    return res;
+  }
+
+  // different options for text or code useful?
+  static getFuseOptions(keys: Fuse.FuseOptionKeyObject[]): Fuse.IFuseOptions<ICodeSystem_Concept> {
+    return {
+      isCaseSensitive: false, //default false
+      shouldSort: true, //default true
+      includeScore: true,
+      includeMatches: true,
+      findAllMatches: false, //perfect match in includes, later in display
+      minMatchCharLength: 3, //default 1
       useExtendedSearch: true,
+      ignoreFieldNorm: false, //if false: the shorter the field, the higher its relevance
       ignoreLocation: true,
-      treshold: 0.1,
+      threshold: 0.3, //0: perfect match, 1: matches everything
       keys: keys,
     };
-    const index = Fuse.createIndex(options.keys, base);
-    const fuse = new Fuse(base, options, index);
-    const res = fuse.search({
-      $or: [{ definition: "'" + str }, { code: "=" + str }],
-    });
-    return JSON.parse(JSON.stringify(res));
-  }
-
-  static isICD10Code(str: string): boolean {
-    const regEx = new RegExp("[A-TV-Z][0-9][0-9].?[0-9A-TV-Z]{0,4}");
-    return regEx.test(str);
   }
 }
-
-export const getFiltered = async (searchstring: string): Promise<string> => {
-  const res = Filter.filterICD(searchstring);
-  return res ? res : "not defined";
-};
