@@ -1,4 +1,4 @@
-import * as r4Codesystem from "../model/ICD10gmCodesystem";
+import * as r4Codesystem from "../model/icd10gmCodesystem";
 import Fuse from "fuse.js";
 import { ICodeSystem_Concept } from "@ahryman40k/ts-fhir-types/lib/R4";
 import { Filter } from "./filter";
