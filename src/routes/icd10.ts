@@ -1,5 +1,5 @@
 import express from "express";
-import * as icd10 from "../services/filter";
+import * as icd10 from "../controller/icd10Controller";
 
 const router: express.Router = express.Router();
 

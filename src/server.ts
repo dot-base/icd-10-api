@@ -2,7 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import icd10Router from "@/routes/icd10";
-import * as r4Codesystem from "@/model/fhirR4Codesystem";
+import * as r4Codesystem from "@/model/ICD10gmCodesystem";
 
 async function startApiServer(): Promise<void> {
   const app: express.Application = express();
