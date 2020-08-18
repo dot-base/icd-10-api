@@ -1,11 +1,15 @@
-import * as r4Codesystem from "../model/icd10gmCodesystem";
+import * as r4Codesystem from "../model/ICD10gmCodesystem";
 import Fuse from "fuse.js";
 import { ICodeSystem_Concept } from "@ahryman40k/ts-fhir-types/lib/R4";
 
 export abstract class Filter {
+  abstract query: Fuse.Expression[];
+  abstract keys: Fuse.FuseOptionKeyObject[];
+  abstract search(terms: string[]): Fuse.FuseResult<ICodeSystem_Concept>[];
+  abstract setQuery(queryStr: string[] | string): void;
 
-  static search(terms: string[]): Fuse.FuseResult<ICodeSystem_Concept>[] { return [] };
-  static setQuery(queryStr: string[] | string) { };
+  getQueryString(searchTerms: string[], queryOptions: QueryOptions): string {
+    let queryStr = queryOptions.matchType + searchTerms[0];
 
   static getQueryStringFuzzyMatchAND(searchTerms: string[]): string {
     let queryStr = "";
@@ -15,15 +19,7 @@ export abstract class Filter {
     return queryStr;
   }
 
-  static getQueryStringExactMatchOR(searchTerms: string[]): string {
-    let queryStr = "=";
-    searchTerms.forEach((term) => {
-      queryStr += term + " | ";
-    });
-    return queryStr;
-  }
-
-  static doSearch(
+  doSearch(
     keys: Fuse.FuseOptionKeyObject[],
     query: Fuse.Expression[]
   ): Fuse.FuseResult<ICodeSystem_Concept>[] {
@@ -40,14 +36,13 @@ export abstract class Filter {
     return res;
   }
 
-  // different options for text or code useful?
-  static getFuseOptions(keys: Fuse.FuseOptionKeyObject[]): Fuse.IFuseOptions<ICodeSystem_Concept> {
+  private static getFuseOptions(
+    keys: Fuse.FuseOptionKeyObject[]
+  ): Fuse.IFuseOptions<ICodeSystem_Concept> {
     return {
-      isCaseSensitive: false, //default false
-      shouldSort: true, //default true
       includeScore: true,
       includeMatches: true,
-      findAllMatches: false, //perfect match in includes, later in display
+      findAllMatches: true, //perfect match in includes, later in display
       minMatchCharLength: 3, //default 1
       useExtendedSearch: true,
       ignoreFieldNorm: false, //if false: the shorter the field, the higher its relevance
