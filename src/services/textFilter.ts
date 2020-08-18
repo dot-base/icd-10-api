@@ -6,9 +6,9 @@ import { QueryOptions, MatchType, LogicalOperator } from "@/types/queryOptions";
 class TextFilter extends Filter {
   query: Fuse.Expression[] = [];
   keys: Fuse.FuseOptionKeyObject[] = [
-        { name: "display", weight: 0.6 },
-        { name: "property.valueString", weight: 0.4 },
-    ];
+    { name: "extension.valueString", weight: 0.6 },
+    { name: "modifierExtension.valueString", weight: 0.4 },
+  ];
 
   search(searchTerms: string[]): Fuse.FuseResult<ICodeSystem_Concept>[] {
     let res: Fuse.FuseResult<ICodeSystem_Concept>[] = [];
@@ -35,8 +35,10 @@ class TextFilter extends Filter {
   }
 
   setQuery(queryStr: string[]): void {
-        queryStr.forEach((str) => TextFilter.query.push({ display: str }, { "property.valueString": str }));
-    }
+    queryStr.forEach((str) =>
+      this.query.push({ "extension.valueString": str }, { "modifierExtension.valueString": str })
+    );
+  }
 
   private setMultipleTermsQuery(searchTerms: string[][]): void {
     const queryStr: string[] = [];
