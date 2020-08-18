@@ -1,6 +1,7 @@
 import * as r4Codesystem from "../model/ICD10gmCodesystem";
 import Fuse from "fuse.js";
 import { ICodeSystem_Concept } from "@ahryman40k/ts-fhir-types/lib/R4";
+import { QueryOptions } from "@/types/queryOptions";
 
 export abstract class Filter {
   abstract query: Fuse.Expression[];
@@ -10,12 +11,9 @@ export abstract class Filter {
 
   getQueryString(searchTerms: string[], queryOptions: QueryOptions): string {
     let queryStr = queryOptions.matchType + searchTerms[0];
-
-  static getQueryStringFuzzyMatchAND(searchTerms: string[]): string {
-    let queryStr = "";
-    searchTerms.forEach((term) => {
-      queryStr += term + " ";
-    });
+    if (searchTerms.length > 1)
+      for (let i = 1; i < searchTerms.length; i++)
+        queryStr += queryOptions.logicalOperator + searchTerms[i];
     return queryStr;
   }
 

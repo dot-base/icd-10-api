@@ -1,6 +1,7 @@
 import Fuse from "fuse.js";
 import { ICodeSystem_Concept } from "@ahryman40k/ts-fhir-types/lib/R4";
 import { Filter } from "./filter";
+import { QueryOptions, MatchType, LogicalOperator } from "@/types/queryOptions";
 
 class TextFilter extends Filter {
   query: Fuse.Expression[] = [];
@@ -39,10 +40,13 @@ class TextFilter extends Filter {
 
   private setMultipleTermsQuery(searchTerms: string[][]): void {
     const queryStr: string[] = [];
+    const queryOptions: QueryOptions = {
+      matchType: MatchType.fuzzy,
+      logicalOperator: LogicalOperator.AND,
     };
-        searchTerms.forEach((term) => {
-            queryStr.push(Filter.getQueryStringFuzzyMatchAND(term));
-        });
+    searchTerms.forEach((term) => {
+      queryStr.push(this.getQueryString(term, queryOptions));
+    });
     this.setQuery(queryStr);
   }
 }
