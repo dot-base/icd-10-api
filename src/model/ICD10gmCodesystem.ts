@@ -6,7 +6,6 @@ export class ICD10gm {
   public static codesystem: R4.ICodeSystem | undefined;
   public static codesystemPrefilteredText: R4.ICodeSystem | undefined;
   public static codesystemFailed: io.Errors | undefined;
-  public static test: R4.ICodeSystem;
 
   public static initCodesystem(): boolean {
     const icd10gmJson: R4.ICodeSystem = JSON.parse(JSON.stringify(icd10gm));
@@ -25,6 +24,7 @@ export class ICD10gm {
    * */
   public static prefilterCodesystemForTextSearch(): boolean {
     ICD10gm.codesystemPrefilteredText = JSON.parse(JSON.stringify(ICD10gm.codesystem));
+    const stripRegex = new RegExp("[^0-9A-ZÄÖÜ]", "gi");
 
     if (ICD10gm.codesystemPrefilteredText?.concept) {
       ICD10gm.codesystemPrefilteredText.concept = ICD10gm.codesystemPrefilteredText.concept.filter(
@@ -35,8 +35,16 @@ export class ICD10gm {
         }
       );
       ICD10gm.codesystemPrefilteredText.concept.forEach((elem) => {
-        elem.display = elem.display?.replace(/[^0-9A-ZÄÖÜ]/gi, "");
-        elem.property = elem.property?.filter((prop) => prop.code === "inclusion");
+        elem.extension = [
+          { id: "strippedDisplay", valueString: elem.display?.replace(stripRegex, "") },
+        ];
+        elem.property?.forEach((prop) => {
+          if (prop.code === "inclusion") {
+            elem.modifierExtension = [
+              { id: "strippedInclusion", valueString: prop.valueString?.replace(stripRegex, "") },
+            ];
+          }
+        });
       });
     }
     return true;
