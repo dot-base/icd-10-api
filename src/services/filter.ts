@@ -12,8 +12,7 @@ export abstract class Filter {
   getQueryString(searchTerms: string[], queryOptions: QueryOptions): string {
     let queryStr = queryOptions.matchType + searchTerms[0];
     if (searchTerms.length > 1)
-      for (let i = 1; i < searchTerms.length; i++)
-        queryStr += queryOptions.logicalOperator + searchTerms[i];
+      for (const term of searchTerms) queryStr += queryOptions.logicalOperator + term;
     return queryStr;
   }
 
