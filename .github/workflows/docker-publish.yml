@@ -12,7 +12,7 @@ on:
       - v*
 
 env:
-  IMAGE_NAME: medical-dashboard
+  IMAGE_NAME: icd-10-api
 
 jobs:
   push:
