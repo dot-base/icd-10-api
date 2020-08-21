@@ -7,6 +7,7 @@
     "start": "nodemon --watch 'src/**/*' -e ts --exec 'npm run watch'",
     "watch": "npm run lint && npm run prettier && npm run development",
     "lint": "eslint 'src/**' --ext .ts --fix",
+    "lint-without-fix": "eslint 'src/**' --ext .ts",
     "prettier": "prettier --write 'src/**/*'",
     "development": "node --inspect=9229 -r tsconfig-paths/register -r ts-node/register src/server.ts",
     "build": "tsc",
