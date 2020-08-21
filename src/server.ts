@@ -12,11 +12,12 @@ async function startApiServer(): Promise<void> {
   app.use(bodyParser.json());
   app.use(cors());
 
-  const initICD10gm: string =
-    r4Codesystem.ICD10gm.initCodesystem() && r4Codesystem.ICD10gm.prefilterCodesystemForTextSearch()
-      ? "succeded"
-      : "failed";
-  console.log(`Loading and prefiltering ICD10gm Codesystem ${initICD10gm}`);
+  try {
+    r4Codesystem.ICD10gm.getInstance();
+    console.log("Loading and prefiltering ICD10gm Codesystem succeded");
+  } catch (error) {
+    throw error;
+  }
 
   app.use("/icd10", icd10Router);
 
