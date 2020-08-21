@@ -2,7 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import icd10Router from "@/routes/icd10";
-import * as r4Codesystem from "@/model/ICD10gmCodesystem";
+import ICD10gm from "@/model/ICD10gmCodesystem";
 
 async function startApiServer(): Promise<void> {
   const app: express.Application = express();
@@ -13,7 +13,7 @@ async function startApiServer(): Promise<void> {
   app.use(cors());
 
   try {
-    r4Codesystem.ICD10gm.getInstance();
+    ICD10gm.getInstance();
     console.log("Loading and prefiltering ICD10gm Codesystem succeded");
   } catch (error) {
     throw error;
