@@ -21,8 +21,8 @@ export abstract class Filter {
     keys: Fuse.FuseOptionKeyObject[],
     query: Fuse.Expression[]
   ): Fuse.FuseResult<ICodeSystem_Concept>[] {
-    const base = r4Codesystem.ICD10gm.codesystemPrefilteredText?.concept
-      ? r4Codesystem.ICD10gm.codesystemPrefilteredText.concept
+    const base = r4Codesystem.ICD10gm.processedCodesystem?.concept
+      ? r4Codesystem.ICD10gm.processedCodesystem.concept
       : [];
 
     const options = Filter.getFuseOptions(keys);
