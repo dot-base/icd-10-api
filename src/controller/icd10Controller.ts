@@ -1,7 +1,7 @@
 import Fuse from "fuse.js";
 import { ICodeSystem_Concept } from "@ahryman40k/ts-fhir-types/lib/R4";
-import * as CodeFilter from "@/services/codeFilter";
-import * as TextFilter from "@/services/textFilter";
+import { CodeFilter } from "@/services/codeFilter";
+import { TextFilter } from "@/services/textFilter";
 
 export const getFiltered = async (searchstring: string): Promise<JSON> => {
   const icd10Controller = new ICD10Controller();
@@ -23,11 +23,11 @@ class ICD10Controller {
     return this.icdRegex.test(str);
   }
 
-  filterCodes(terms: string[]): string[] {
+  public filterCodes(terms: string[]): string[] {
     return terms.filter((term) => this.isICD10Code(term));
   }
 
-  stripTerms(str: string): string[] {
+  public stripTerms(str: string): string[] {
     return str.split(this.stripRegex);
   }
 }
