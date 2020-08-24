@@ -2,28 +2,23 @@ import Fuse from "fuse.js";
 import { ICodeSystem_Concept } from "@ahryman40k/ts-fhir-types/lib/R4";
 import { Filter } from "./filter";
 import { QueryOptions, MatchType, LogicalOperator } from "@/types/queryOptions";
+import { FuseSearch } from "./fuseSearch";
 
-class CodeFilter extends Filter {
-  query: Fuse.Expression[] = [];
-  keys: Fuse.FuseOptionKeyObject[] = [{ name: "code", weight: 1 }];
+export class CodeFilter extends Filter {
+  protected static keys: Fuse.FuseOptionKeyObject[] = [{ name: "code", weight: 1 }];
+  protected static queryOptions: QueryOptions = {
+    matchType: MatchType.exactMatch,
+    logicalOperator: LogicalOperator.OR,
+  };
 
-  search(icdCodes: string[]): Fuse.FuseResult<ICodeSystem_Concept>[] {
-    const queryOptions: QueryOptions = {
-      matchType: MatchType.exactMatch,
-      logicalOperator: LogicalOperator.OR,
-    };
-    const queryStr: string = this.getQueryString(icdCodes, queryOptions);
-    this.setQuery(queryStr);
-    const res: Fuse.FuseResult<ICodeSystem_Concept>[] = this.doSearch(this.keys, this.query);
+  public static initSearch(icdCodes: string[]): Fuse.FuseResult<ICodeSystem_Concept>[] {
+    const queryStr: string = FuseSearch.getQueryString(icdCodes, CodeFilter.queryOptions);
+    const query: Fuse.Expression[] = CodeFilter.getQuery(queryStr);
+    const res: Fuse.FuseResult<ICodeSystem_Concept>[] = FuseSearch.doSearch(CodeFilter.keys, query);
     return res;
   }
 
-  setQuery(queryStr: string): void {
-    this.query.push({ code: queryStr });
+  protected static getQuery(queryStr: string): Fuse.Expression[] {
+    return [{ code: queryStr }];
   }
 }
-
-export const initSearch = (codes: string[]): Fuse.FuseResult<ICodeSystem_Concept>[] => {
-  const codeFilter = new CodeFilter();
-  return codeFilter.search(codes);
-};
