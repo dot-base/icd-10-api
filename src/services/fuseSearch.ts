@@ -3,7 +3,7 @@ import Fuse from "fuse.js";
 import { ICodeSystem_Concept } from "@ahryman40k/ts-fhir-types/lib/R4";
 import { QueryOptions } from "@/types/queryOptions";
 
-export class FuseSearch {
+export default class FuseSearch {
   protected static getQueryString(searchTerms: string[], queryOptions: QueryOptions): string {
     let queryStr = queryOptions.matchType + searchTerms[0];
     for (let i = 1; i < searchTerms.length; i++)
