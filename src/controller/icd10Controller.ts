@@ -1,7 +1,7 @@
 import Fuse from "fuse.js";
 import { ICodeSystem_Concept } from "@ahryman40k/ts-fhir-types/lib/R4";
-import { CodeFilter } from "@/services/codeFilter";
-import { TextFilter } from "@/services/textFilter";
+import CodeFilter from "@/services/codeFilter";
+import TextFilter from "@/services/textFilter";
 
 export class ICD10Controller {
   private static icdRegex = new RegExp("[A-TV-Z][0-9][0-9].?[0-9A-TV-Z]{0,4}", "i");

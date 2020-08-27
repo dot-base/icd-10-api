@@ -1,4 +1,4 @@
-import ICD10gm from "../model/ICD10gmCodesystem";
+import ICD10gm from "@/model/ICD10gmCodesystem";
 import Fuse from "fuse.js";
 import { ICodeSystem_Concept } from "@ahryman40k/ts-fhir-types/lib/R4";
 import { QueryOptions } from "@/types/queryOptions";
