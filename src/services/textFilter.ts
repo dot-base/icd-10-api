@@ -39,13 +39,12 @@ export default class TextFilter extends Filter {
 
   private static getCombinations(terms: string[]): string[][] {
     if (terms.length === 1) return [terms];
-    else {
-      const subarr: string[][] = TextFilter.getCombinations(terms.slice(1));
-      return subarr.concat(
-        subarr.map((e) => e.concat([terms[0]])),
-        [[terms[0]]]
-      );
-    }
+
+    const subarr: string[][] = TextFilter.getCombinations(terms.slice(1));
+    return subarr.concat(
+      subarr.map((e) => e.concat([terms[0]])),
+      [[terms[0]]]
+    );
   }
 
   private static getMultipleTermsQuery(searchTerms: string[][]): string[] {
