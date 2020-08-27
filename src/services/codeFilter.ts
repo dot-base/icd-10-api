@@ -1,10 +1,10 @@
 import Fuse from "fuse.js";
 import { ICodeSystem_Concept } from "@ahryman40k/ts-fhir-types/lib/R4";
-import { Filter } from "@/services/filter";
+import Filter from "@/services/filter";
 import { QueryOptions, MatchType, LogicalOperator } from "@/types/queryOptions";
-import { FuseSearch } from "@/services/fuseSearch";
+import FuseSearch from "@/services/fuseSearch";
 
-export class CodeFilter extends Filter {
+export default class CodeFilter extends Filter {
   protected static keys: Fuse.FuseOptionKeyObject[] = [{ name: "code", weight: 1 }];
   protected static queryOptions: QueryOptions = {
     matchType: MatchType.exactMatch,
