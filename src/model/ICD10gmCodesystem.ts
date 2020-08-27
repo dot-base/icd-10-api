@@ -37,9 +37,9 @@ export default class ICD10gm {
     if (!processedCodesystem.concept)
       throw new Error("Initializing ICD10 codesystem from JSON failed");
 
-    processedCodesystem.concept = processedCodesystem.concept.filter((elem) => {
-      return elem.property ? this.isTypeICDCode(elem.property) : false;
-    });
+    processedCodesystem.concept = processedCodesystem.concept.filter(elem => 
+      elem.property ? this.isTypeICDCode(elem.property) : false
+    );
 
     processedCodesystem.concept = this.trimAndCopySearchFields(processedCodesystem.concept);
 
