@@ -14,8 +14,7 @@ export class CodeFilter extends Filter {
   public static initSearch(icdCodes: string[]): Fuse.FuseResult<ICodeSystem_Concept>[] {
     const queryStr: string = FuseSearch.getQueryString(icdCodes, CodeFilter.queryOptions);
     const query: Fuse.Expression[] = CodeFilter.getQuery(queryStr);
-    const res: Fuse.FuseResult<ICodeSystem_Concept>[] = FuseSearch.doSearch(CodeFilter.keys, query);
-    return res;
+   return FuseSearch.doSearch(CodeFilter.keys, query);
   }
 
   protected static getQuery(queryStr: string): Fuse.Expression[] {
