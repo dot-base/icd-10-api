@@ -37,22 +37,24 @@ export default class ICD10gm {
     if (!processedCodesystem.concept)
       throw new Error("Initializing ICD10 codesystem from JSON failed");
 
-    processedCodesystem.concept = processedCodesystem.concept.filter(elem => 
-      elem.property ? this.isTypeICDCode(elem.property) : false
+    processedCodesystem.concept = processedCodesystem.concept.filter((elem) =>
+      elem.property ? ICD10gm.isTypeICDCode(elem.property) : false
     );
 
-    processedCodesystem.concept = this.trimAndCopySearchFields(processedCodesystem.concept);
+    processedCodesystem.concept = ICD10gm.trimAndCopySearchFields(processedCodesystem.concept);
 
     return processedCodesystem;
   }
 
-  private isTypeICDCode(property: R4.ICodeSystem_Property1[]) {
+  private static isTypeICDCode(property: R4.ICodeSystem_Property1[]) {
     return property.some((prop) =>
       prop.valueCode ? prop.valueCode === "category" && prop.code === "kind" : false
     );
   }
 
-  private trimAndCopySearchFields(concept: R4.ICodeSystem_Concept[]): R4.ICodeSystem_Concept[] {
+  private static trimAndCopySearchFields(
+    concept: R4.ICodeSystem_Concept[]
+  ): R4.ICodeSystem_Concept[] {
     const trimRegex = new RegExp("[^0-9A-ZÄÖÜ]", "gi");
 
     concept.forEach((elem) => {
