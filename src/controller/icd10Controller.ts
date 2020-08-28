@@ -11,10 +11,11 @@ export class ICD10Controller {
     const searchTerms: string[] = ICD10Controller.splitTerms(searchstring);
     const icd10Codes: string[] = ICD10Controller.filterCodes(searchTerms);
 
-    let response: Fuse.FuseResult<ICodeSystem_Concept>[] = [];
-    if (icd10Codes.length >= 1) response = CodeFilter.initSearch(icd10Codes);
-    if (response.length < 1) response = TextFilter.initSearch(searchTerms);
-    return response;
+    if (icd10Codes.length > 0) {
+      const codeResponse = CodeFilter.initSearch(icd10Codes);
+      if (codeResponse.length > 0) return codeResponse;
+    }
+    return TextFilter.initSearch(searchTerms);
   }
 
   private static isICD10Code(str: string): boolean {
