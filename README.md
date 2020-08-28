@@ -5,14 +5,8 @@ API to search the german version of the 10th revision of the International Stati
 
 
 ## Quick Nav
-1. [API Documentation](#API-Documentation)
 1. [Production Deployment](#Production-Deployment)
 1. [Contributing](#Contributing)
-
-
-## API Documentation
-You can find our [API documentation at Spotlight](https://dotbase.stoplight.io/docs/icd-10-api)!
-
 
 ## Production Deployment
 Want an ICD 10 api of your own? The easiest way is to deploy our docker container. Just follow the steps below to get started.
@@ -25,12 +19,12 @@ Want an ICD 10 api of your own? The easiest way is to deploy our docker containe
 
 
 ### Deployment
+1. [Log into the GitHub package registry for Docker](https://docs.github.com/en/packages/using-github-packages-with-your-projects-ecosystem/configuring-docker-for-use-with-github-packages).
 1. Start the container with a single command
     ```
-    docker run --name icd-10-api -p 3000:3000 -d dotbase/icd-10-api
+    docker run --name icd-10-api -p 3000:3000 -d docker.pkg.github.com/dot-base/icd-10-api/icd-10-api:latest
     ```
-1. Done and dusted 🎉. The ICD 10 rest api will be available on port 3000.
-1. [optional] Add this container to your docker swarm or kubernetes config.
+1. Done and dusted 🎉. The ICD 10 rest api is available on port 3000.
 
 
 ## Contributing
