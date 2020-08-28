@@ -1,6 +1,6 @@
 import { R4 } from "@ahryman40k/ts-fhir-types";
 import * as io from "io-ts";
-import icd10gm from "data/codesystem_icd10_gm_2020.json";
+import icd10gm from "@/data/codesystem_icd10_gm_2020.json";
 
 export default class ICD10gm {
   public static instance: ICD10gm;
