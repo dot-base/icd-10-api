@@ -6,7 +6,7 @@ import ICD10gm from "@/model/ICD10gmCodesystem";
 
 async function startApiServer(): Promise<void> {
   const app: express.Application = express();
-  const port: string = process.env.PORT || "7000";
+  const port: string = process.env.PORT || "3000";
 
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
