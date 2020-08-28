@@ -4,9 +4,6 @@ import { ICodeSystem_Concept } from "@ahryman40k/ts-fhir-types/lib/R4";
 import { QueryOptions } from "@/types/queryOptions";
 
 export default class FuseSearch {
-  /**Builds fuse search query for single and multiple term queries.
-   * Thus, initialization of queryStr is handled seperately and loop starts at index 1.
-   * */
   protected static getQueryString(searchTerms: string[], queryOptions: QueryOptions): string {
     let queryStr = queryOptions.matchType + searchTerms[0];
     for (let i = 1; i < searchTerms.length; i++)
