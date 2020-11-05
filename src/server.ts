@@ -19,7 +19,7 @@ async function startApiServer(): Promise<void> {
     throw error;
   }
 
-  app.use("/icd10", icd10Router);
+  app.use("/api/icd10", icd10Router);
 
   app.listen(port);
   console.log(`Server is listening on port ${port}`);
