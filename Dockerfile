@@ -1,4 +1,4 @@
-FROM node:alpine AS builder
+FROM node:lts-alpine AS builder
 WORKDIR /usr/src/node-builder
 COPY . .
 RUN npm install && \
@@ -8,7 +8,7 @@ RUN npm install && \
     mv ./tsconfig.json ./builder/tsconfig.json && \
     mv ./package.json ./builder/package.json
 
-FROM node:alpine
+FROM node:lts-alpine
 WORKDIR /usr/src/project
 COPY --from=builder /usr/src/node-builder/builder .
 RUN npm install --production
