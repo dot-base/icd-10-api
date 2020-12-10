@@ -1,0 +1,23 @@
+name: Sentry Production Release
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  create:
+    name: Create Sentry Production Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Create Sentry release
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: dotbase
+          SENTRY_PROJECT: ${{ github.event.repository.name }}
+        with:
+          environment: production
+          version: ${{ github.ref }}
