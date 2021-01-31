@@ -6,6 +6,7 @@ import * as Tracing from "@sentry/tracing";
 
 import icd10Router from "@/routes/icd10";
 import ICD10gm from "@/model/ICD10gmCodesystem";
+import logger from "@/logger";
 
 class Icd10Api {
   private static get port(): string {
@@ -38,9 +39,6 @@ class Icd10Api {
     app.use(bodyParser.json());
     app.use(cors());
 
-    ICD10gm.getInstance();
-    console.log("Loading and prefiltering ICD10gm Codesystem succeded");
-
     app.use("/api/icd10", icd10Router);
 
     if (Icd10Api.sentryIsEnabled) {
@@ -48,11 +46,12 @@ class Icd10Api {
     }
 
     app.listen(Icd10Api.port, () => {
-      console.log(`Server listening on ${Icd10Api.port}`);
+      logger.info(`Server listening on ${Icd10Api.port}`);
     });
   }
 
   constructor() {
+    ICD10gm.getInstance();
     this.startApiServer();
   }
 }

@@ -1,6 +1,7 @@
 import { R4 } from "@ahryman40k/ts-fhir-types";
 import io from "io-ts";
 import icd10gm from "@/data/codesystem_icd10_gm_2020.json";
+import logger from "@/logger";
 
 export default class ICD10gm {
   public static instance: ICD10gm;
@@ -14,6 +15,7 @@ export default class ICD10gm {
 
   public static getInstance(): ICD10gm {
     if (!ICD10gm.instance) ICD10gm.instance = new ICD10gm();
+    logger.info("Loading and prefiltering ICD10gm Codesystem succeded");
     return ICD10gm.instance;
   }
 
@@ -22,6 +24,7 @@ export default class ICD10gm {
 
     if (icd10gmDecoded._tag === "Left") {
       const errors: string[] = ICD10gm.errorMessages(icd10gmDecoded.left);
+      logger.error(`Initializing ICD10 codesystem from JSON failed. ${errors.join("\n")}`);
       throw Error(`Initializing ICD10 codesystem from JSON failed. ${errors.join("\n")}`);
     }
     if (!R4.RTTI_CodeSystem.is(icd10gmDecoded.right))
@@ -42,8 +45,10 @@ export default class ICD10gm {
   private static preProcessCodeSystem(codesystem: R4.ICodeSystem): R4.ICodeSystem {
     const processedCodesystem: R4.ICodeSystem = JSON.parse(JSON.stringify(codesystem));
 
-    if (!processedCodesystem.concept)
-      throw new Error("Initializing ICD10 codesystem from JSON failed");
+    if (!processedCodesystem.concept){
+      logger.error("Preprocessing ICD10 codesystem from JSON failed");
+      throw new Error("Preprocessing ICD10 codesystem from JSON failed");
+    }
 
     processedCodesystem.concept = processedCodesystem.concept.filter((elem) =>
       elem.property ? ICD10gm.isTypeICDCode(elem.property) : false
