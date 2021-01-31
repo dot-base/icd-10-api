@@ -45,7 +45,7 @@ export default class ICD10gm {
   private static preProcessCodeSystem(codesystem: R4.ICodeSystem): R4.ICodeSystem {
     const processedCodesystem: R4.ICodeSystem = JSON.parse(JSON.stringify(codesystem));
 
-    if (!processedCodesystem.concept){
+    if (!processedCodesystem.concept) {
       logger.error("Preprocessing ICD10 codesystem from JSON failed");
       throw new Error("Preprocessing ICD10 codesystem from JSON failed");
     }
