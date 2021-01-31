@@ -10,7 +10,7 @@
     "lint-without-fix": "eslint 'src/**' --ext .ts",
     "test": "jest --passWithNoTests",
     "prettier": "prettier --write 'src/**/*'",
-    "development": "node --inspect=9229 -r tsconfig-paths/register -r ts-node/register src/server.ts",
+    "development": "NODE_ENV=development node --inspect=9229 -r tsconfig-paths/register -r ts-node/register src/server.ts",
     "build": "tsc",
     "production": "node -r tsconfig-paths/register build/server.js"
   },
