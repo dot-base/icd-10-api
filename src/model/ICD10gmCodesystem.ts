@@ -1,5 +1,5 @@
 import { R4 } from "@ahryman40k/ts-fhir-types";
-import * as io from "io-ts";
+import io from "io-ts";
 import icd10gm from "@/data/codesystem_icd10_gm_2020.json";
 
 export default class ICD10gm {
@@ -20,11 +20,19 @@ export default class ICD10gm {
   private static initCodesystem(): R4.ICodeSystem {
     const icd10gmDecoded = R4.RTTI_CodeSystem.decode(icd10gm);
 
-    if (!icd10gmDecoded.isRight())
-      throw Error(
-        "Initializing ICD10 codesystem from JSON failed: " + <io.Errors>icd10gmDecoded.value
-      );
-    return <R4.ICodeSystem>icd10gmDecoded.value;
+    if (icd10gmDecoded._tag === "Left") {
+      const errors: string[] = ICD10gm.errorMessages(icd10gmDecoded.left);
+      throw Error(`Initializing ICD10 codesystem from JSON failed. ${errors.join("\n")}`);
+    }
+    if (!R4.RTTI_CodeSystem.is(icd10gmDecoded.right))
+      throw Error("Initializing ICD10 codesystem from JSON failed.");
+    return <R4.ICodeSystem>icd10gmDecoded.right;
+  }
+
+  private static errorMessages(error: io.Errors): string[] {
+    return error.map((err) => {
+      return err.message ?? `Invalid value '${err.value}' at key '${err.context.slice(-1)[0].key}'`;
+    });
   }
 
   /**
