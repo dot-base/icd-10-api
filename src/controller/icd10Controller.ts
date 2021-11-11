@@ -15,7 +15,8 @@ export class ICD10Controller {
       const codeResponse = CodeFilter.initSearch(icd10Codes);
       if (codeResponse.length > 0) return codeResponse;
     }
-    return TextFilter.initSearch(searchTerms);
+
+    return ICD10Controller.removeExtensions(TextFilter.initSearch(searchTerms));
   }
 
   private static isICD10Code(str: string): boolean {
@@ -28,5 +29,22 @@ export class ICD10Controller {
 
   private static splitTerms(str: string): string[] {
     return str.split(ICD10Controller.stripRegex);
+  }
+
+  /**
+   * Remove extensions added in ICD10gm.preProcessCodeSystem()
+   *
+   * ICD10gm.preProcessCodeSystem() adds extensions to the FHIR objects in
+   * order to facilitate better search results. Those extensions are invalid
+   * according to the FHIR standard though (not having an .url field). Therefor
+   * the extensions need to be removed before delivery of the search results.
+   *
+   * Fixes https://github.com/dot-base/icd-10-api/issues/24
+   */
+  private static removeExtensions(
+    res: Fuse.FuseResult<ICodeSystem_Concept>[]
+  ): Fuse.FuseResult<ICodeSystem_Concept>[] {
+    res.forEach((r) => (r.item.extension = r.item.modifierExtension = undefined));
+    return res;
   }
 }
