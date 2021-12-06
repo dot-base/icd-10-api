@@ -16,7 +16,12 @@ export class ICD10Controller {
       if (codeResponse.length > 0) return codeResponse;
     }
 
-    return ICD10Controller.removeExtensions(TextFilter.initSearch(searchTerms));
+    const searchResult = TextFilter.initSearch(searchTerms);
+
+    // copy the results before removing extensions, otherwise
+    // we would change the actual database we are searching on
+    const searchResultCopy = JSON.parse(JSON.stringify(searchResult));
+    return ICD10Controller.removeExtensions(searchResultCopy);
   }
 
   private static isICD10Code(str: string): boolean {
