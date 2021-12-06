@@ -1,0 +1,73 @@
+name: Manage PR
+
+on:
+  pull_request:
+    branches:
+      - master
+      - dev
+  pull_request_review:
+    types: 
+      - submitted
+      - edited
+
+jobs:
+  lint-and-test:
+    name: Lint Files and Run Tests
+    uses: dot-base/.github/.github/workflows/lint-and-test.yml@master
+
+  get-pr:
+    name: Get PR
+    needs: lint-and-test
+    uses: dot-base/.github/.github/workflows/get-pr.yml@master
+
+  lint-pr-title:
+    name: Lint PR Title
+    needs: get-pr
+    uses: dot-base/.github/.github/workflows/lint-pr-title.yml@master
+    with:
+      pr: ${{ needs.get-pr.outputs.pr }}
+
+  # Run the following steps if the pull request is a release PR
+  merge-release-pr:
+    name: Merge Release PR
+    needs: [get-pr, lint-pr-title]
+    if: ${{ fromJson(needs.get-pr.outputs.pr).type == 'release' && fromJson(needs.get-pr.outputs.pr).isMergeable == true }}
+    uses: dot-base/.github/.github/workflows/merge-release-pr.yml@master
+    with:
+      pr: ${{ needs.get-pr.outputs.pr }}
+
+  create-release:
+    name: Create Release
+    needs: merge-release-pr
+    uses: dot-base/.github/.github/workflows/create-release.yml@master
+    secrets:
+      GH_BOT_PAT: ${{ secrets.GH_BOT_PAT }}
+      CR_PAT: ${{ secrets.CR_PAT }}
+      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+
+  # Run the following steps if the pull request is a feature PR
+  configure-feature-pr:
+    name: Configure Feature PR
+    needs: [get-pr, lint-pr-title]
+    if: ${{ fromJson(needs.get-pr.outputs.pr).type == 'feature' }}
+    uses: dot-base/.github/.github/workflows/configure-feature-pr.yml@master
+    with:
+      pr: ${{ needs.get-pr.outputs.pr }}
+    secrets:
+      GH_BOT_USER: ${{ secrets.GH_BOT_USER }}
+      GH_BOT_PAT: ${{ secrets.GH_BOT_PAT }}
+
+  merge-feature-pr:
+    name: Merge Feature PR
+    needs: [get-pr, lint-pr-title]
+    if: ${{ fromJson(needs.get-pr.outputs.pr).type == 'feature' && fromJson(needs.get-pr.outputs.pr).isMergeable == true }}
+    uses: dot-base/.github/.github/workflows/merge-feature-pr.yml@master
+    with:
+      pr: ${{ needs.get-pr.outputs.pr }}
+
+  create-pre-release:
+    name: Create Pre-Release
+    needs: merge-feature-pr
+    uses: dot-base/.github/.github/workflows/create-pre-release.yml@master
+    secrets:
+      CR_PAT: ${{ secrets.CR_PAT }}
