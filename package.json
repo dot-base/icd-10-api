@@ -6,12 +6,12 @@
   "scripts": {
     "start": "nodemon --watch 'src/**/*' -e ts --exec 'npm run watch'",
     "watch": "npm run lint && npm run prettier && npm run development",
-    "lint": "eslint 'src/**' --ext .ts --fix",
-    "lint-without-fix": "eslint 'src/**' --ext .ts",
+    "lint": "eslint 'src/**/*.ts' 'tests/**/*.ts' --fix",
+    "lint-without-fix": "eslint 'src/**/*.ts' 'tests/**/*.ts'",
     "test": "jest --passWithNoTests",
-    "prettier": "prettier --write 'src/**/*'",
-    "development": "NODE_ENV=development node --inspect=9229 -r tsconfig-paths/register -r ts-node/register src/server.ts",
-    "build": "tsc",
+    "prettier": "prettier --write 'src/**/*.ts' 'tests/**/*.ts'",
+    "development": "NODE_ENV=development ts-node src/server.ts",
+    "build": "tsc --project tsconfig.production.json",
     "production": "node -r tsconfig-paths/register build/server.js"
   },
   "dependencies": {
@@ -23,7 +23,7 @@
     "express": "^4.17.1",
     "fuse.js": "^6.4.0",
     "tsconfig-paths": "^3.9.0",
-    "tslib": "^2.0.0",
+    "tslib": "^2.3.1",
     "winston": "^3.3.3"
   },
   "devDependencies": {
@@ -34,11 +34,12 @@
     "eslint": "^7.5.0",
     "eslint-config-prettier": "^7.0.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "jest": "^26.4.1",
-    "nodemon": "^2.0.4",
+    "jest": "^27.3.1",
+    "jest-decorator": "^1.0.1",
+    "nodemon": "^2.0.14",
     "prettier": "^2.0.5",
-    "ts-node": "^9.1.1",
-    "typescript": "^4.1.2"
+    "ts-node": "^10.4.0",
+    "typescript": "^4.4.4"
   },
   "eslintConfig": {
     "root": true,
@@ -58,5 +59,8 @@
       "es6": true,
       "node": true
     }
+  },
+  "prettier": {
+    "printWidth": 100
   }
 }
