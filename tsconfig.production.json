@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "outDir": "./build",
+    "esModuleInterop": true,
+    "strict": true,
+    "module": "commonjs",
+    "target": "es6",
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": true,
+    "useUnknownInCatchVariables": false,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*", "build/*"]
+    },
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "**/__mocks__"],
+}
