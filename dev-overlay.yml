@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  icd-10-api:
+    image: dev-overlay
+    # image: "ghcr.io/dot-base/dev-overlay:latest"
+    volumes:
+      - ${DEV_OVERLAY_DIR}:/home/dev-overlay/workspace:cached
+    ports:
+      - "3000:3000" # the nodejs express server port to access it directly
+    environment:
+      SOME_FEATURE_RELEVANT_FOR_DEBUGGING: "true"
+    command: sleep infinity
