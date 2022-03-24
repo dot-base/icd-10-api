@@ -7,7 +7,8 @@ services:
     volumes:
       - ${DEV_OVERLAY_DIR}:/home/dev-overlay/workspace:cached
     ports:
-      - "3000:3000" # the nodejs express server port to access it directly
+      - "3000:3000" # nodejs express server application port to access it directly
+      - "9229:9229" # nodejs debugger port
     environment:
       SOME_FEATURE_RELEVANT_FOR_DEBUGGING: "true"
     command: sleep infinity
