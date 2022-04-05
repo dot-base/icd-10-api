@@ -2,13 +2,72 @@ version: '3.8'
 
 services:
   icd-10-api:
-    image: dev-overlay
-    # image: "ghcr.io/dot-base/dev-overlay:latest"
+    image: node:16-alpine
+    user: ${USERID}
+    working_dir: /var/workspace
     volumes:
-      - ${DEV_OVERLAY_DIR}:/home/dev-overlay/workspace:cached
+      - ${DEV_OVERLAY_DIR}:/var/workspace/:cached
     ports:
       - "3000:3000" # nodejs express server application port to access it directly
       - "9229:9229" # nodejs debugger port
     environment:
       SOME_FEATURE_RELEVANT_FOR_DEBUGGING: "true"
     command: sleep infinity
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+
+  fhir-server:
+    deploy:
+      placement:
+        constraints:
+          - node.labels.avoid != true
+
+  fhir-db:
+    deploy:
+      placement:
+        constraints:
+          - node.labels.avoid != true
+
+  authentication-gateway:
+    deploy:
+      placement:
+        constraints:
+          - node.labels.avoid != true
+
+  keycloak:
+    deploy:
+      placement:
+        constraints:
+          - node.labels.avoid != true
+
+  keycloak-db:
+    deploy:
+      placement:
+        constraints:
+          - node.labels.avoid != true
+
+  error-handler:
+    deploy:
+      placement:
+        constraints:
+          - node.labels.avoid != true
+
+  medical-dashboard:
+    deploy:
+      placement:
+        constraints:
+          - node.labels.avoid != true
+
+  file-storage-api:
+    deploy:
+      placement:
+        constraints:
+          - node.labels.avoid != true
+
+  patient-onboarding:
+    deploy:
+      placement:
+        constraints:
+          - node.labels.avoid != true
