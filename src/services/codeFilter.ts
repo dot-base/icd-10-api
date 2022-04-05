@@ -6,6 +6,7 @@ import FuseSearch from "@/services/fuseSearch";
 
 export default class CodeFilter extends Filter {
   protected static keys: Fuse.FuseOptionKeyObject[] = [{ name: "code", weight: 1 }];
+
   protected static queryOptions: QueryOptions = {
     matchType: MatchType.exactMatch,
     logicalOperator: LogicalOperator.OR,

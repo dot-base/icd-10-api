@@ -13,7 +13,7 @@ export class ICD10Controller {
     const icd10Codes: string[] = ICD10Controller.filterCodes(searchTerms);
 
     /**
-     * If a query contains icd10 codes (e.g.  G.20.10),
+     * If a query contains icd10 codes (e.g.  G20.9),
      * only codes are considered and remaining search terms are ignored
      */
     if (icd10Codes.length > 0) {
@@ -21,8 +21,11 @@ export class ICD10Controller {
       if (codeResponse.length > 0) return codeResponse;
     }
 
-    if( searchTerms.length > Number(process.env.MAX_SEARCH_WORDS))
-      throw new HTTPError("Search query exceeded max. amount of process.env.MAX_SEARCH_WORDS allowed terms.", 400);
+    if (searchTerms.length > Number(process.env.MAX_SEARCH_WORDS))
+      throw new HTTPError(
+        "Search query exceeded max. amount of process.env.MAX_SEARCH_WORDS allowed terms.",
+        400
+      );
 
     const searchResult = TextFilter.initSearch(searchTerms);
 
