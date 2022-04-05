@@ -3,20 +3,13 @@ import io from "io-ts";
 import icd10gm from "@/data/codesystem_icd10_gm_2020.json";
 import logger from "@/logger";
 
-export default class ICD10gm {
-  public static instance: ICD10gm;
+class ICD10gm {
   public codesystem: R4.ICodeSystem;
   public processedCodesystem: R4.ICodeSystem;
 
-  private constructor() {
+  public constructor() {
     this.codesystem = ICD10gm.initCodesystem();
     this.processedCodesystem = ICD10gm.preProcessCodeSystem(this.codesystem);
-  }
-
-  public static getInstance(): ICD10gm {
-    if (!ICD10gm.instance) ICD10gm.instance = new ICD10gm();
-    logger.info("Loading and prefiltering ICD10gm Codesystem succeded");
-    return ICD10gm.instance;
   }
 
   private static initCodesystem(): R4.ICodeSystem {
@@ -85,3 +78,5 @@ export default class ICD10gm {
     return concept;
   }
 }
+
+export default new ICD10gm();

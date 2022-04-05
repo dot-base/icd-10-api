@@ -33,7 +33,6 @@ export default class Server {
   }
 
   constructor() {
-    ICD10gm.getInstance();
     this.startApiServer();
   }
 
