@@ -32,6 +32,10 @@ export default class Server {
     app.use(Sentry.Handlers.errorHandler());
   }
 
+  private static setDefaultEnvironmentVariables() {
+    process.env.MAX_SEARCH_WORDS = process.env.MAX_SEARCH_WORDS ?? "6";
+  }
+
   constructor() {
     this.startApiServer();
   }
@@ -41,10 +45,11 @@ export default class Server {
     express.use(bodyParser.json());
     express.use(cors());
 
+    Server.setDefaultEnvironmentVariables();
     Server.enableSentry(express);
 
     express.listen(Server.port, () => {
-      console.log(`Server listening on ${Server.port}`);
+      console.log(`Server is listening on ${Server.port}`);
     });
   }
 }

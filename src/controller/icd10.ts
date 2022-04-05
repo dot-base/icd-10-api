@@ -2,6 +2,7 @@ import Fuse from "fuse.js";
 import { ICodeSystem_Concept } from "@ahryman40k/ts-fhir-types/lib/R4";
 import CodeFilter from "@/services/codeFilter";
 import TextFilter from "@/services/textFilter";
+import HTTPError from "@/utils/HTTPError";
 
 export class ICD10Controller {
   private static icd10Regex = new RegExp("[A-TV-Z][0-9][0-9].?[0-9A-TV-Z]{0,4}", "i");
@@ -20,10 +21,15 @@ export class ICD10Controller {
       if (codeResponse.length > 0) return codeResponse;
     }
 
+    if( searchTerms.length > Number(process.env.MAX_SEARCH_WORDS))
+      throw new HTTPError("Search query exceeded max. amount of process.env.MAX_SEARCH_WORDS allowed terms.", 400);
+
     const searchResult = TextFilter.initSearch(searchTerms);
 
-    // copy the results before removing extensions, otherwise
-    // we would change the actual database we are searching on
+    /**
+     * copy the results before removing extensions, otherwise
+     * we would change the actual dataset we are searching on
+     */
     const searchResultCopy = JSON.parse(JSON.stringify(searchResult));
     return ICD10Controller.removeExtensions(searchResultCopy);
   }
