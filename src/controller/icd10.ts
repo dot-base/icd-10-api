@@ -4,13 +4,17 @@ import CodeFilter from "@/services/codeFilter";
 import TextFilter from "@/services/textFilter";
 
 export class ICD10Controller {
-  private static icdRegex = new RegExp("[A-TV-Z][0-9][0-9].?[0-9A-TV-Z]{0,4}", "i");
+  private static icd10Regex = new RegExp("[A-TV-Z][0-9][0-9].?[0-9A-TV-Z]{0,4}", "i");
   private static stripRegex = new RegExp("[ -]+");
 
   public static getFiltered(searchstring: string): Fuse.FuseResult<ICodeSystem_Concept>[] {
     const searchTerms: string[] = ICD10Controller.splitTerms(searchstring);
     const icd10Codes: string[] = ICD10Controller.filterCodes(searchTerms);
 
+    /**
+     * If a query contains icd10 codes (e.g.  G.20.10),
+     * only codes are considered and remaining search terms are ignored
+     */
     if (icd10Codes.length > 0) {
       const codeResponse = CodeFilter.initSearch(icd10Codes);
       if (codeResponse.length > 0) return codeResponse;
@@ -25,7 +29,7 @@ export class ICD10Controller {
   }
 
   private static isICD10Code(str: string): boolean {
-    return ICD10Controller.icdRegex.test(str);
+    return ICD10Controller.icd10Regex.test(str);
   }
 
   private static filterCodes(terms: string[]): string[] {

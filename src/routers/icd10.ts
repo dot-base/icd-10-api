@@ -1,5 +1,5 @@
 import express from "express";
-import { ICD10Controller } from "@/controller/icd10Controller";
+import { ICD10Controller } from "@/controller/icd10";
 import HTTPError from "@/utils/HTTPError";
 
 const router: express.Router = express.Router();
