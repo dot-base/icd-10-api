@@ -7,6 +7,7 @@ IFS=$'\n\t'
 DOT_BASE_DIR_NAME=dot-base
 DOT_BASE_BRANCH=feat/devenv
 
+DEV_OVERLAY_SERVICE_NAME=icd-10-api
 DOT_BASE_DIR=$(realpath ./${DOT_BASE_DIR_NAME})
 DEV_OVERLAY_DIR=$(realpath .)
 
@@ -16,7 +17,7 @@ DEV_OVERLAY_DIR=$(realpath .)
   ${DOT_BASE_DIR}/dot-base.sh setup
 }
 
-echo "Starting dot-base stack with dev overlay for icd-10-api"
+echo "Starting dot-base stack with dev overlay for ${DEV_OVERLAY_SERVICE_NAME}"
 
 source ${DOT_BASE_DIR}/parameters.env
 
@@ -33,13 +34,19 @@ docker stack deploy \
   $APP_NAME
 
 echo
-echo "To re-build and run the icd-10-api as part of the stack, run:"
+echo "To re-build and start, run:"
 echo "  docker exec -it \\"
-echo "    \$(docker ps -q -f name=${APP_NAME}_icd-10-api) \\"
+echo "    \$(docker ps -q -f name=${APP_NAME}_${DEV_OVERLAY_SERVICE_NAME}) \\"
 echo "      npm start"
 
 echo
-echo "To re-build and debug the icd-10-api as part of the stack, run:"
+echo "To re-build and debug, run:"
 echo "  docker exec -it \\"
-echo "    \$(docker ps -q -f name=${APP_NAME}_icd-10-api) \\"
+echo "    \$(docker ps -q -f name=${APP_NAME}_${DEV_OVERLAY_SERVICE_NAME}) \\"
 echo "      npm run debug"
+
+echo
+echo "To re-build, debug and stop on start, run:"
+echo "  docker exec -it \\"
+echo "    \$(docker ps -q -f name=${APP_NAME}_${DEV_OVERLAY_SERVICE_NAME}) \\"
+echo "      npm run debug-brk"
