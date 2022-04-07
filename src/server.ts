@@ -4,7 +4,6 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import * as Sentry from "@sentry/node";
 import * as Tracing from "@sentry/tracing";
-import ICD10gm from "@/model/icd10CodeSystem";
 
 export default class Server {
   private static get port(): string {
