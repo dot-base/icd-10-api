@@ -34,6 +34,18 @@ docker stack deploy \
   $APP_NAME
 
 echo
+echo "To offload the local swarm manager and migrate most services to external workers run:"
+echo "  ${DOT_BASE_DIR_NAME}/dot-base.sh offloadExcept ${APP_NAME}_${DEV_OVERLAY_SERVICE_NAME}"
+
+echo
+echo "To migrate all services to the local swarm manager run:"
+echo "  ${DOT_BASE_DIR_NAME}/dot-base.sh runOnManager"
+
+echo
+echo "To stop the stack, run:"
+echo "  ${DOT_BASE_DIR_NAME}/dot-base.sh stop"
+
+echo
 echo "To re-build and start, run:"
 echo "  docker exec -it \\"
 echo "    \$(docker ps -q -f name=${APP_NAME}_${DEV_OVERLAY_SERVICE_NAME}) \\"
