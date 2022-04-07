@@ -23,7 +23,7 @@ export class ICD10Controller {
 
     if (searchTerms.length > Number(process.env.MAX_SEARCH_WORDS))
       throw new HTTPError(
-        "Search query exceeded max. amount of process.env.MAX_SEARCH_WORDS allowed terms.",
+        `Search query exceeded max. amount of ${process.env.MAX_SEARCH_WORDS} allowed terms.`,
         400
       );
 
