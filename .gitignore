@@ -22,3 +22,6 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Local dot-base checkout for running the stack
+dot-base/
