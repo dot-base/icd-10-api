@@ -1,4 +1,4 @@
-import ICD10gm from "@/model/ICD10gmCodesystem";
+import ICD10gm from "@/model/icd10CodeSystem";
 import Fuse from "fuse.js";
 import { ICodeSystem_Concept } from "@ahryman40k/ts-fhir-types/lib/R4";
 import { QueryOptions } from "@/types/queryOptions";
@@ -21,8 +21,7 @@ export default class FuseSearch {
     keys: Fuse.FuseOptionKeyObject[],
     query: Fuse.Expression[]
   ): Fuse.FuseResult<ICodeSystem_Concept>[] {
-    const icd10 = ICD10gm.getInstance();
-    const base = icd10.processedCodesystem?.concept ?? [];
+    const base = ICD10gm.processedCodesystem?.concept ?? [];
     const options = FuseSearch.getOptions(keys);
     const index = Fuse.createIndex(keys, base);
     const fuse = new Fuse(base, options, index);
