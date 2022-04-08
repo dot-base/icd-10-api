@@ -46,14 +46,9 @@ echo "To stop the stack, run:"
 echo "  ${DOT_BASE_DIR_NAME}/dot-base.sh stop"
 
 echo
-echo "To re-build and start, run:"
+echo "To re-build, start and debug, run:"
 echo "  docker exec -it \$(docker ps -q -f name=${APP_NAME}_${DEV_OVERLAY_SERVICE_NAME}) \\"
 echo "      npm start"
-
-echo
-echo "To re-build and debug, run:"
-echo "  docker exec -it \$(docker ps -q -f name=${APP_NAME}_${DEV_OVERLAY_SERVICE_NAME}) \\"
-echo "      npm run debug"
 
 echo
 echo "To re-build, debug and stop on start, run:"
