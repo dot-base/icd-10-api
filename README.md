@@ -26,7 +26,6 @@ Want an ICD 10 api of your own? The easiest way is to deploy our docker containe
 
 This project is written in Typescript. For an introduction into the language and best practices see the [typescript documentation](https://www.typescriptlang.org/docs/home.html).
 
-### Requirements
 You will need `docker`, `git`, `jq` and `openssl`. Checkout a local copy of this repository, `cd` into it and run:
 ```bash
 ./launch-stack.sh
