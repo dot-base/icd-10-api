@@ -6,6 +6,7 @@ API to search the german version of the 10th revision of the International Stati
 
 ## Quick Nav
 1. [Production Deployment](#Production-Deployment)
+1. [Configuration](#Configuration)
 1. [Considerations](#Considerations)
 1. [Contributing](#Contributing)
 
