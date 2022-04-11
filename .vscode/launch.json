@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "address": "dotbase.local",
+            "address": "127.0.0.1",
             "localRoot": "${workspaceFolder}",
             "name": "debug",
             "port": 9229,
