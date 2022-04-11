@@ -4,6 +4,11 @@ API to search the german version of the 10th revision of the International Stati
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/dot-base/icd-10-api)](https://github.com/dot-base/icd-10-api/releases)
 
 
+## Quick Nav
+1. [Production Deployment](#Production-Deployment)
+1. [Considerations](#Considerations)
+1. [Contributing](#Contributing)
+
 ## Production Deployment
 Want an ICD-10 api of your own? The easiest way is to deploy our docker container. Just follow the steps below to get started.
 
@@ -54,7 +59,7 @@ Due too performance and time-out reasons the default max. value for search terms
 ### Prioritization of ICD-10 codes
 Terms that match the ICD code pattern are handled with priority. If a query contains something like  '*Parkinson G20*' or '*Parkinson G20.9*', the service will first try to find exact matches for these ICD codes. It will only search for further results matching 'Parkinson', if no matching ICD codes were found.
 
-## Development
+## Contributing
 
 This project is written in Typescript. For an introduction into the language and best practices see the [typescript documentation](https://www.typescriptlang.org/docs/home.html).
 
