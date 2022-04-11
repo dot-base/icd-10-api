@@ -63,3 +63,7 @@ echo "      npm run debug-brk"
 echo
 echo "To get an interactive shell, run:"
 echo "  docker exec -it \$(docker ps -q -f name=${APP_NAME}_${DEV_OVERLAY_SERVICE_NAME}) sh"
+
+echo
+echo "You can access the service directly via http://127.0.0.1:3000."
+echo "Connect your debug adapter to 127.0.0.1:9229."
