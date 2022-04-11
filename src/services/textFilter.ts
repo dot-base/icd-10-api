@@ -9,6 +9,7 @@ export default class TextFilter extends Filter {
     { name: "extension.valueString", weight: 0.6 },
     { name: "modifierExtension.valueString", weight: 0.4 },
   ];
+
   protected static queryOptions: QueryOptions = {
     matchType: MatchType.fuzzy,
     logicalOperator: LogicalOperator.AND,
