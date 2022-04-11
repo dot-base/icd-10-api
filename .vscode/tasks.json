@@ -48,6 +48,17 @@
             "problemMatcher": []
         },
         {
+            "label": "Follow Stack Logs",
+            "type": "shell",
+            "command": "./dot-base/dot-base.sh logs",
+            "presentation": {
+                "reveal": "always",
+                "focus": true,
+                "panel": "dedicated"
+            },
+            "problemMatcher": []
+        },
+        {
             "label": "Stop Stack",
             "type": "shell",
             "command": "./dot-base/dot-base.sh stop",
