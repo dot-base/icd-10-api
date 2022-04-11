@@ -46,6 +46,11 @@ echo "To stop the stack, run:"
 echo "  ${DOT_BASE_DIR_NAME}/dot-base.sh stop"
 
 echo
+echo "To install node_modules, run:"
+echo "  docker exec -it \$(docker ps -q -f name=${APP_NAME}_${DEV_OVERLAY_SERVICE_NAME}) \\"
+echo "      npm install"
+
+echo
 echo "To re-build, start and debug, run:"
 echo "  docker exec -it \$(docker ps -q -f name=${APP_NAME}_${DEV_OVERLAY_SERVICE_NAME}) \\"
 echo "      npm start"
@@ -54,3 +59,7 @@ echo
 echo "To re-build, debug and stop on start, run:"
 echo "  docker exec -it \$(docker ps -q -f name=${APP_NAME}_${DEV_OVERLAY_SERVICE_NAME}) \\"
 echo "      npm run debug-brk"
+
+echo
+echo "To get an interactive shell, run:"
+echo "  docker exec -it \$(docker ps -q -f name=${APP_NAME}_${DEV_OVERLAY_SERVICE_NAME}) sh"
