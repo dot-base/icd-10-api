@@ -14,8 +14,9 @@ DEV_OVERLAY_DIR=$(realpath .)
 [[ ! -e ${DOT_BASE_DIR} ]] && {
   git clone --branch ${DOT_BASE_BRANCH} \
     git@github.com:dot-base/dot-base.git ${DOT_BASE_DIR_NAME}
-  ${DOT_BASE_DIR}/dot-base.sh setup
 }
+
+${DOT_BASE_DIR}/dot-base.sh setup
 
 echo "Starting dot-base stack with dev overlay for ${DEV_OVERLAY_SERVICE_NAME}"
 
