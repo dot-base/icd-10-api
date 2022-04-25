@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "address": "127.0.0.1",
+            "localRoot": "${workspaceFolder}",
+            "name": "debug",
+            "port": 9229,
+            "remoteRoot": "/var/workspace/",
+            "request": "attach",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
+        }
+    ]
+}
