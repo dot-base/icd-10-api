@@ -1,6 +1,5 @@
 import express from "@/express";
 import bodyParser from "body-parser";
-import cors from "cors";
 
 export default class Server {
   private static get port(): string {
@@ -18,7 +17,6 @@ export default class Server {
   private async startApiServer() {
     express.use(bodyParser.urlencoded({ extended: true }));
     express.use(bodyParser.json());
-    express.use(cors());
 
     Server.setDefaultEnvironmentVariables();
 
