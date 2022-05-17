@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  icd-10-api:
+    image: node:16-alpine
+    user: ${USERID}
+    working_dir: /var/workspace
+    volumes:
+      - ${DEV_OVERLAY_DIR}:/var/workspace/:cached
+    ports:
+      - "3000:3000" # nodejs express server application port to access it directly
+      - "9229:9229" # nodejs debugger port
+    environment:
+      SOME_FEATURE_RELEVANT_FOR_DEBUGGING: "true"
+    command: sleep infinity
+
+  fhir-resources:
+    command: npm run production:initialize -- --module all --samples true

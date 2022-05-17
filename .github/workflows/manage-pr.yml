@@ -43,7 +43,6 @@ jobs:
     secrets:
       GH_BOT_PAT: ${{ secrets.GH_BOT_PAT }}
       CR_PAT: ${{ secrets.CR_PAT }}
-      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
   # Run the following steps if the pull request is a feature PR
   configure-feature-pr:
