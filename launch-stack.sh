@@ -5,15 +5,20 @@ set -euo pipefail
 IFS=$'\n\t'
 
 DOT_BASE_DIR_NAME=dot-base
-DOT_BASE_BRANCH=feat/devenv
 
 DEV_OVERLAY_SERVICE_NAME=icd-10-api
 DOT_BASE_DIR=$(realpath ./${DOT_BASE_DIR_NAME})
 DEV_OVERLAY_DIR=$(realpath .)
 
 [[ ! -e ${DOT_BASE_DIR} ]] && {
-  git clone --branch ${DOT_BASE_BRANCH} \
-    git@github.com:dot-base/dot-base.git ${DOT_BASE_DIR_NAME}
+  if ! git clone git@github.com:dot-base/deployments.git ${DOT_BASE_DIR_NAME} ; then
+    echo
+    echo "ERROR: Git clone via SSH failed. Are you behind a proxy?"
+    echo "Trying https, please login with a Github Access Token."
+    echo "https://github.com/settings/tokens/new?scopes=repo"
+    echo
+    git clone https://github.com/dot-base/deployments.git ${DOT_BASE_DIR_NAME}
+  fi
 }
 
 ${DOT_BASE_DIR}/dot-base.sh setup
