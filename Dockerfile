@@ -8,7 +8,7 @@ RUN npm install && \
     mv ./tsconfig.production.json /usr/src/app-build/tsconfig.json && \
     mv ./package.json /usr/src/app-build/package.json
 WORKDIR /usr/src/app-build
-RUN npm install --production
+RUN npm install --omit=dev
 
 FROM node:18.12.1-alpine
 RUN apk add dumb-init
