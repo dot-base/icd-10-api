@@ -15,7 +15,3 @@ services:
     command:
       - sleep
       - infinity
-
-
-  fhir-resources:
-    command: npm run production:initialize -- --module all --samples true
