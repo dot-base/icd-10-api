@@ -19,6 +19,9 @@ jobs:
     name: Get PR
     needs: lint-and-test
     uses: dot-base/.github/.github/workflows/get-pr.yml@master
+    secrets:
+      GH_BOT_USER: ${{ secrets.GH_BOT_USER }}
+      GH_BOT_PAT: ${{ secrets.GH_BOT_PAT }}
 
   lint-pr-title:
     name: Lint PR Title
@@ -26,6 +29,9 @@ jobs:
     uses: dot-base/.github/.github/workflows/lint-pr-title.yml@master
     with:
       pr: ${{ needs.get-pr.outputs.pr }}
+    secrets:
+      GH_BOT_USER: ${{ secrets.GH_BOT_USER }}
+      GH_BOT_PAT: ${{ secrets.GH_BOT_PAT }}
 
   # Run the following steps if the pull request is a release PR
   merge-release-pr:
@@ -35,6 +41,9 @@ jobs:
     uses: dot-base/.github/.github/workflows/merge-release-pr.yml@master
     with:
       pr: ${{ needs.get-pr.outputs.pr }}
+    secrets:
+      GH_BOT_USER: ${{ secrets.GH_BOT_USER }}
+      GH_BOT_PAT: ${{ secrets.GH_BOT_PAT }}
 
   create-release:
     name: Create Release
@@ -63,6 +72,9 @@ jobs:
     uses: dot-base/.github/.github/workflows/merge-feature-pr.yml@master
     with:
       pr: ${{ needs.get-pr.outputs.pr }}
+    secrets:
+      GH_BOT_USER: ${{ secrets.GH_BOT_USER }}
+      GH_BOT_PAT: ${{ secrets.GH_BOT_PAT }}
 
   create-pre-release:
     name: Create Pre-Release
