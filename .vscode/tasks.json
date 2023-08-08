@@ -15,28 +15,6 @@
             "problemMatcher": []
         },
         {
-            "label": "Offload services to external workers",
-            "type": "shell",
-            "command": "./dot-base/dot-base.sh offloadExcept dotbase_icd-10-api",
-            "presentation": {
-                "reveal": "always",
-                "focus": true,
-                "panel": "shared"
-            },
-            "problemMatcher": []
-        },
-        {
-            "label": "Pull services to manager",
-            "type": "shell",
-            "command": "./dot-base/dot-base.sh runOnManager",
-            "presentation": {
-                "reveal": "always",
-                "focus": true,
-                "panel": "shared"
-            },
-            "problemMatcher": []
-        },
-        {
             "label": "Watch Stack",
             "type": "shell",
             "command": "./dot-base/dot-base.sh watch",

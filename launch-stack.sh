@@ -5,10 +5,11 @@ set -euo pipefail
 IFS=$'\n\t'
 
 DOT_BASE_DIR_NAME=dot-base
-
 DEV_OVERLAY_SERVICE_NAME=icd-10-api
-DOT_BASE_DIR=$(realpath ./${DOT_BASE_DIR_NAME})
-DEV_OVERLAY_DIR=$(realpath .)
+
+export DOT_BASE_DIR=$(realpath ./${DOT_BASE_DIR_NAME})
+export DEV_OVERLAY_DIR=$(realpath .)
+export USERID=${UID}
 
 [[ ! -e ${DOT_BASE_DIR} ]] && {
   if ! git clone git@github.com:dot-base/deployments.git ${DOT_BASE_DIR_NAME} ; then
@@ -21,31 +22,11 @@ DEV_OVERLAY_DIR=$(realpath .)
   fi
 }
 
-${DOT_BASE_DIR}/dot-base.sh setup
-
 echo "Starting dot-base stack with dev overlay for ${DEV_OVERLAY_SERVICE_NAME}"
 
+${DOT_BASE_DIR}/dot-base.sh dev ${DEV_OVERLAY_DIR}/dev-overlay.yml
+
 source ${DOT_BASE_DIR}/parameters.env
-
-export DOT_BASE_DIR
-export DEV_OVERLAY_DIR
-
-export USERID=${UID}
-
-docker stack deploy \
-  --with-registry-auth=true \
-  --compose-file=${DOT_BASE_DIR}/stack.yml \
-  --compose-file=${DOT_BASE_DIR}/stack-standalone.yml \
-  --compose-file=${DEV_OVERLAY_DIR}/dev-overlay.yml \
-  $APP_NAME
-
-echo
-echo "To offload the local swarm manager and migrate most services to external workers run:"
-echo "  ${DOT_BASE_DIR_NAME}/dot-base.sh offloadExcept ${APP_NAME}_${DEV_OVERLAY_SERVICE_NAME}"
-
-echo
-echo "To migrate all services to the local swarm manager run:"
-echo "  ${DOT_BASE_DIR_NAME}/dot-base.sh runOnManager"
 
 echo
 echo "To stop the stack, run:"
