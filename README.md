@@ -32,6 +32,11 @@ Want an ICD-10 api of your own? The easiest way is to deploy our docker containe
     ```
 1. Done and dusted 🎉. The ICD-10 api is available on port 3000.
 
+### Usage
+Submit a GET request to `/api/icd10` using the `search` query parameter:
+```
+'Parkinson-Syndrom Primär' -> http://localhost:3000/api/icd10?search=Parkinson-Syndrom%20Prim%C3%A4r
+```
 
 ## Configuration
 
