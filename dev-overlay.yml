@@ -10,9 +10,8 @@ services:
     ports:
       - "3000:3000" # nodejs express server application port to access it directly
       - "9229:9229" # nodejs debugger port
-    environment:
-      SOME_FEATURE_RELEVANT_FOR_DEBUGGING: "true"
-    command: sleep infinity
-
-  fhir-resources:
-    command: npm run production:initialize -- --module all --samples true
+    # environment:
+    #   MAX_SEARCH_WORDS: "6"
+    command:
+      - sleep
+      - infinity
