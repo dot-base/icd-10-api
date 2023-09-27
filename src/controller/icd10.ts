@@ -62,7 +62,10 @@ export class ICD10Controller {
   private static removeExtensions(
     res: Fuse.FuseResult<ICodeSystem_Concept>[]
   ): Fuse.FuseResult<ICodeSystem_Concept>[] {
-    res.forEach((r) => (r.item.extension = r.item.modifierExtension = undefined));
+    res.forEach((r) => {
+      r.item.extension = undefined;
+      r.item.modifierExtension = undefined;
+    });
     return res;
   }
 }
