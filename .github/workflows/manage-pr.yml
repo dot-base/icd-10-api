@@ -65,10 +65,3 @@ jobs:
     secrets:
       GH_BOT_USER: ${{ secrets.GH_BOT_USER }}
       GH_BOT_PAT: ${{ secrets.GH_BOT_PAT }}
-
-  create-pre-release:
-    name: Create Pre-Release
-    needs: merge-feature-pr
-    uses: dot-base/.github/.github/workflows/create-pre-release.yml@main
-    secrets:
-      CR_PAT: ${{ secrets.CR_PAT }}
