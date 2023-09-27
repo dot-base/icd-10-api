@@ -3,8 +3,8 @@ name: Manage PR
 on:
   pull_request:
     branches:
-      - master
-      - dev
+      - main
+      - release
   pull_request_review:
     types: 
       - submitted
@@ -13,12 +13,12 @@ on:
 jobs:
   lint-and-test:
     name: Lint Files and Run Tests
-    uses: dot-base/.github/.github/workflows/lint-and-test.yml@master
+    uses: dot-base/.github/.github/workflows/lint-and-test.yml@main
 
   get-pr:
     name: Get PR
     needs: lint-and-test
-    uses: dot-base/.github/.github/workflows/get-pr.yml@master
+    uses: dot-base/.github/.github/workflows/get-pr.yml@main
     secrets:
       GH_BOT_USER: ${{ secrets.GH_BOT_USER }}
       GH_BOT_PAT: ${{ secrets.GH_BOT_PAT }}
@@ -26,7 +26,7 @@ jobs:
   lint-pr-title:
     name: Lint PR Title
     needs: get-pr
-    uses: dot-base/.github/.github/workflows/lint-pr-title.yml@master
+    uses: dot-base/.github/.github/workflows/lint-pr-title.yml@main
     with:
       pr: ${{ needs.get-pr.outputs.pr }}
     secrets:
@@ -38,7 +38,7 @@ jobs:
     name: Merge Release PR
     needs: [get-pr, lint-pr-title]
     if: ${{ fromJson(needs.get-pr.outputs.pr).type == 'release' && fromJson(needs.get-pr.outputs.pr).isMergeable == true }}
-    uses: dot-base/.github/.github/workflows/merge-release-pr.yml@master
+    uses: dot-base/.github/.github/workflows/merge-release-pr.yml@main
     with:
       pr: ${{ needs.get-pr.outputs.pr }}
     secrets:
@@ -48,7 +48,7 @@ jobs:
   create-release:
     name: Create Release
     needs: merge-release-pr
-    uses: dot-base/.github/.github/workflows/create-release.yml@master
+    uses: dot-base/.github/.github/workflows/create-release.yml@main
     secrets:
       GH_BOT_USER: ${{ secrets.GH_BOT_USER }}
       GH_BOT_PAT: ${{ secrets.GH_BOT_PAT }}
@@ -59,7 +59,7 @@ jobs:
     name: Configure Feature PR
     needs: [get-pr, lint-pr-title]
     if: ${{ fromJson(needs.get-pr.outputs.pr).type == 'feature' }}
-    uses: dot-base/.github/.github/workflows/configure-feature-pr.yml@master
+    uses: dot-base/.github/.github/workflows/configure-feature-pr.yml@main
     with:
       pr: ${{ needs.get-pr.outputs.pr }}
     secrets:
@@ -70,7 +70,7 @@ jobs:
     name: Merge Feature PR
     needs: [get-pr, lint-pr-title]
     if: ${{ fromJson(needs.get-pr.outputs.pr).type == 'feature' && fromJson(needs.get-pr.outputs.pr).isMergeable == true }}
-    uses: dot-base/.github/.github/workflows/merge-feature-pr.yml@master
+    uses: dot-base/.github/.github/workflows/merge-feature-pr.yml@main
     with:
       pr: ${{ needs.get-pr.outputs.pr }}
     secrets:
@@ -80,6 +80,6 @@ jobs:
   create-pre-release:
     name: Create Pre-Release
     needs: merge-feature-pr
-    uses: dot-base/.github/.github/workflows/create-pre-release.yml@master
+    uses: dot-base/.github/.github/workflows/create-pre-release.yml@main
     secrets:
       CR_PAT: ${{ secrets.CR_PAT }}
