@@ -47,6 +47,22 @@ class ICD10gm {
       elem.property ? ICD10gm.isTypeICDCode(elem.property) : false
     );
 
+    const incompleteConcepts = processedCodesystem.concept.filter(
+      (concept) => !ICD10gm.isComplete(concept)
+    );
+    if (incompleteConcepts.length > 0) {
+      const incompleteConceptsList = incompleteConcepts
+        .map((concept) => `{code: ${concept.code}, display: ${concept.display}}`)
+        .join(", ");
+      logger.warn(
+        `WARNING: The ICD10 codesystem contains ${incompleteConcepts.length} incomplete concept(s) missing either code or display. The affected concepts are: ${incompleteConceptsList}.`
+      );
+    }
+
+    processedCodesystem.concept = processedCodesystem.concept.filter((concept) =>
+      ICD10gm.isComplete(concept)
+    );
+
     processedCodesystem.concept = ICD10gm.trimAndCopySearchFields(processedCodesystem.concept);
 
     return processedCodesystem;
@@ -56,6 +72,10 @@ class ICD10gm {
     return property.some((prop) =>
       prop.valueCode ? prop.valueCode === "category" && prop.code === "kind" : false
     );
+  }
+
+  private static isComplete(concept: R4.ICodeSystem_Concept) {
+    return concept.code && concept.display;
   }
 
   private static trimAndCopySearchFields(

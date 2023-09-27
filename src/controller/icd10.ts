@@ -8,12 +8,7 @@ export class ICD10Controller {
   private static icd10Regex = new RegExp("[A-TV-Z][0-9][0-9].?[0-9A-TV-Z]{0,4}", "i");
   private static stripRegex = new RegExp("[ -]+");
 
-  public static getCompleteSearchResults(searchstring: string): Fuse.FuseResult<ICodeSystem_Concept>[] {
-    const icd10codes = ICD10Controller.getFiltered(searchstring);
-    return icd10codes.filter(result => result.item.code && result.item.display)
-  }
-
-  private static getFiltered(searchstring: string): Fuse.FuseResult<ICodeSystem_Concept>[] {
+  public static getFiltered(searchstring: string): Fuse.FuseResult<ICodeSystem_Concept>[] {
     const searchTerms: string[] = ICD10Controller.splitTerms(searchstring);
     const icd10Codes: string[] = ICD10Controller.filterCodes(searchTerms);
 
