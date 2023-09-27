@@ -24,3 +24,6 @@ yarn-error.log*
 
 # Local dot-base checkout for running the stack
 dot-base/
+
+# local npm cache
+.npm
