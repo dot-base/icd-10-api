@@ -1,0 +1,38 @@
+name: Generate Changelog
+
+on: workflow_dispatch
+
+jobs:
+  generate-changelog:
+    name: Generate Changelog
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Out Repository
+        uses: actions/checkout@v3
+        with:
+            ref: "main"
+
+      - name: Check Out .github Repository
+        uses: actions/checkout@v3
+        with:
+            repository: "dot-base/.github"
+            ref: "main"
+            path: "actions-repo"
+            token: ${{ secrets.GH_BOT_PAT }}
+
+      - name: Install conventional-changelog
+        run: |
+          npm i conventional-changelog-conventionalcommits
+        
+      - name: Generate Changelog
+        id: changelog
+        uses: TriPSs/conventional-changelog-action@v3
+        with:
+            github-token: ${{ secrets.github_token }}
+            release-count: 0
+            output-file: "false"
+            skip-version-file: "true"
+            skip-commit: "true"
+            git-push: "false"
+            config-file-path: "actions-repo/.github/changelog.config.js"
+            create-summary: true

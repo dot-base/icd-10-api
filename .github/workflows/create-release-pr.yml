@@ -5,7 +5,7 @@ on: workflow_dispatch
 jobs:
   create-release-pr:
     name: Create Release PR
-    uses: dot-base/.github/.github/workflows/create-release-pr.yml@master
+    uses: dot-base/.github/.github/workflows/create-release-pr.yml@main
     secrets:
       GH_BOT_USER: ${{ secrets.GH_BOT_USER }}
       GH_BOT_PAT: ${{ secrets.GH_BOT_PAT }}
