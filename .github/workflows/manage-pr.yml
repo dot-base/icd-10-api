@@ -66,17 +66,6 @@ jobs:
       GH_BOT_USER: ${{ secrets.GH_BOT_USER }}
       GH_BOT_PAT: ${{ secrets.GH_BOT_PAT }}
 
-  merge-feature-pr:
-    name: Merge Feature PR
-    needs: [get-pr, lint-pr-title]
-    if: ${{ fromJson(needs.get-pr.outputs.pr).type == 'feature' && fromJson(needs.get-pr.outputs.pr).isMergeable == true }}
-    uses: dot-base/.github/.github/workflows/merge-feature-pr.yml@main
-    with:
-      pr: ${{ needs.get-pr.outputs.pr }}
-    secrets:
-      GH_BOT_USER: ${{ secrets.GH_BOT_USER }}
-      GH_BOT_PAT: ${{ secrets.GH_BOT_PAT }}
-
   create-pre-release:
     name: Create Pre-Release
     needs: merge-feature-pr
