@@ -3,6 +3,7 @@ on:
     push: 
         branches:
             - feat/test-run-sync-pr-action
+
 jobs:
     run-sync-main-and-release-branch:
         name: Synchronize Release Branch and Main Branch
