@@ -82,8 +82,8 @@ You will need `bash`, `coreutils`, `docker`, `git`, `mkcert`, `openssl`, `sudo` 
 Checkout the dot.base repository and move into it.
 
 ```bash
-git clone git@github.com:dot-base/authentication-gateway.git
-cd authentication-gateway
+git clone git@github.com:dot-base/icd-10-api.git
+cd icd-10-api
 ```
 
 ### Generate a Github personal access token
@@ -112,13 +112,13 @@ In order to develop a service in its complete dot.base environment, you need to 
 ### Install service dependencies
 
 ```bash
-docker exec -it $(docker ps -q -f name=dotbase_authentication-gateway) npm install
+docker exec -it $(docker ps -q -f name=dotbase_icd-10-api) npm install
 ```
 
 ### Start this service in development mode
 
 ```bash
-docker exec -it $(docker ps -q -f name=dotbase_authentication-gateway) npm start
+docker exec -it $(docker ps -q -f name=dotbase_icd-10-api) npm start
 ```
 
 ### Watch your dot.base stack
