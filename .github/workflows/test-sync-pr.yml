@@ -9,7 +9,7 @@ on:
 jobs:
     run-sync-main-and-release-branch:
         name: Synchronize Release Branch and Main Branch
-        uses: .github/workflows/synchronize-main-and-release-branch.yml@main
+        uses: dot-base/.github/.github/workflows/synchronize-main-and-release-branch.yml@main
         with:
           hotfix-tag: ${{inputs.tag}}
         secrets:
