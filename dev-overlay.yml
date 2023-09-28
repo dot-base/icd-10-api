@@ -5,6 +5,8 @@ services:
     image: node:18.12.1-alpine
     user: ${USERID}
     working_dir: /var/workspace
+    environment:
+            HOME: "/tmp"
     volumes:
       - ${DEV_OVERLAY_DIR}:/var/workspace/:cached
     ports:
