@@ -11,57 +11,9 @@ on:
       - edited
 
 jobs:
-  lint-and-test:
-    name: Lint Files and Run Tests
-    uses: dot-base/.github/.github/workflows/lint-and-test.yml@main
-
-  get-pr:
-    name: Get PR
-    needs: lint-and-test
-    uses: dot-base/.github/.github/workflows/get-pr.yml@main
-    secrets:
-      GH_BOT_USER: ${{ secrets.GH_BOT_USER }}
-      GH_BOT_PAT: ${{ secrets.GH_BOT_PAT }}
-
-  lint-pr-title:
-    name: Lint PR Title
-    needs: get-pr
-    uses: dot-base/.github/.github/workflows/lint-pr-title.yml@main
-    with:
-      pr: ${{ needs.get-pr.outputs.pr }}
-    secrets:
-      GH_BOT_USER: ${{ secrets.GH_BOT_USER }}
-      GH_BOT_PAT: ${{ secrets.GH_BOT_PAT }}
-
-  # Run the following steps if the pull request is a release PR
-  merge-release-pr:
-    name: Merge Release PR
-    needs: [get-pr, lint-pr-title]
-    if: ${{ fromJson(needs.get-pr.outputs.pr).type == 'release' && fromJson(needs.get-pr.outputs.pr).isMergeable == true }}
-    uses: dot-base/.github/.github/workflows/merge-release-pr.yml@main
-    with:
-      pr: ${{ needs.get-pr.outputs.pr }}
-    secrets:
-      GH_BOT_USER: ${{ secrets.GH_BOT_USER }}
-      GH_BOT_PAT: ${{ secrets.GH_BOT_PAT }}
-
-  create-release:
-    name: Create Release
-    needs: merge-release-pr
-    uses: dot-base/.github/.github/workflows/create-release.yml@main
-    secrets:
-      GH_BOT_USER: ${{ secrets.GH_BOT_USER }}
-      GH_BOT_PAT: ${{ secrets.GH_BOT_PAT }}
-      CR_PAT: ${{ secrets.CR_PAT }}
-
-  # Run the following steps if the pull request is a feature PR
-  configure-feature-pr:
-    name: Configure Feature PR
-    needs: [get-pr, lint-pr-title]
-    if: ${{ fromJson(needs.get-pr.outputs.pr).type == 'feature' }}
-    uses: dot-base/.github/.github/workflows/configure-feature-pr.yml@main
-    with:
-      pr: ${{ needs.get-pr.outputs.pr }}
+  manage-pr:
+    name: Manage PR
+    uses: dot-base/.github/.github/workflows/manage-pr.yml@main
     secrets:
       GH_BOT_USER: ${{ secrets.GH_BOT_USER }}
       GH_BOT_PAT: ${{ secrets.GH_BOT_PAT }}

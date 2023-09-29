@@ -1,11 +1,19 @@
 name: ✨ Create Release PR
 
-on: workflow_dispatch
+on: 
+  workflow_dispatch:
+    inputs:
+      branch:
+        type: string
+        description: The branch with the changes that shall be released.
+        default: "main"
 
 jobs:
   create-release-pr:
     name: Create Release PR
     uses: dot-base/.github/.github/workflows/create-release-pr.yml@main
+    with:
+      branch: ${{ inputs.branch }}
     secrets:
       GH_BOT_USER: ${{ secrets.GH_BOT_USER }}
       GH_BOT_PAT: ${{ secrets.GH_BOT_PAT }}

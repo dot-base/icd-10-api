@@ -1,6 +1,6 @@
 import { R4 } from "@ahryman40k/ts-fhir-types";
 import io from "io-ts";
-import icd10gm from "@/data/codesystem_icd10_gm_2023.json";
+import icd10gm from "@/data/codesystem_icd10_gm_2024.json";
 import logger from "@/logger";
 
 class ICD10gm {
