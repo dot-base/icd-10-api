@@ -1,0 +1,13 @@
+name: Run Create Release
+on:
+    push: 
+        branches:
+            - feat/run-create-release-manually
+jobs:
+  run-create-release:
+    name: Run Create Docker Build of 5.0.0 Manually 
+    uses: dot-base/.github/.github/workflows/run-create-release-manually.yml@main
+    secrets:
+      GH_BOT_USER: ${{ secrets.GH_BOT_USER }}
+      GH_BOT_PAT: ${{ secrets.GH_BOT_PAT }}
+      CR_PAT: ${{ secrets.CR_PAT }}
