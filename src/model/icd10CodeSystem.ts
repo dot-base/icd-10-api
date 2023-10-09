@@ -6,10 +6,14 @@ import logger from "@/logger";
 class ICD10gm {
   public codesystem: R4.ICodeSystem;
   public processedCodesystem: R4.ICodeSystem;
+  public system: string;
+  public version: string;
 
   public constructor() {
     this.codesystem = ICD10gm.initCodesystem();
     this.processedCodesystem = ICD10gm.preProcessCodeSystem(this.codesystem);
+    this.system = "http://fhir.de/CodeSystem/bfarm/icd-10-gm";
+    this.version = "2024"
   }
 
   private static initCodesystem(): R4.ICodeSystem {
