@@ -1,0 +1,34 @@
+name: 🐳 Build Docker Image
+
+on:
+    workflow_dispatch:
+        inputs:
+            ref:
+              type: string
+              required: true
+              description: "The ref to build the image from. (usually this is a release tag, e.g. v4.0.1)"
+            architecture:
+                type: choice
+                required: true
+                default: amd64
+                options:
+                    - amd64
+                    - arm64
+                    - both
+            imageTag:
+                type: string
+                required: true
+                description: "The tag for the docker image. (usually a version tag without leading 'v')"
+
+jobs:
+    build-docker-image:
+        name: Build Docker Image for ${{ inputs.imageTag }}
+        uses: dot-base/.github/.github/workflows/build-docker-image.yml@main
+        with:
+            ref: ${{ inputs.ref }}
+            architecture: ${{ inputs.architecture }}
+            imageTag: ${{ inputs.imageTag }}
+        secrets:
+            GH_BOT_USER: ${{ secrets.GH_BOT_USER }}
+            GH_BOT_PAT: ${{ secrets.GH_BOT_PAT }}
+            CR_PAT: ${{ secrets.CR_PAT }}
