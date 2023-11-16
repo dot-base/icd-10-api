@@ -4,7 +4,7 @@ API to search the german version of the 10th revision of the International Stati
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/dot-base/icd-10-api)](https://github.com/dot-base/icd-10-api/releases)
 
 
-## Quick Nav
+## Contents
 1. [Production Deployment](#Production-Deployment)
 1. [Configuration](#Configuration)
 1. [Considerations](#Considerations)
