@@ -1,0 +1,11 @@
+name: 🔁 Create Sync PR (manual version)
+
+on: workflow_dispatch
+
+jobs:
+  create-release-pr:
+    name: Create Sync PR
+    uses: dot-base/.github/.github/workflows/create-sync-pr.yml@main
+    secrets:
+      GH_BOT_USER: ${{ secrets.GH_BOT_USER }}
+      GH_BOT_PAT: ${{ secrets.GH_BOT_PAT }}
