@@ -1,11 +1,11 @@
-import Fuse from "fuse.js";
 import { ICodeSystem_Concept } from "@ahryman40k/ts-fhir-types/lib/R4";
 import Filter from "@/services/filter";
 import { QueryOptions, MatchType, LogicalOperator } from "@/types/queryOptions";
 import FuseSearch from "@/services/fuseSearch";
+import { Expression, FuseOptionKeyObject, FuseResult } from "fuse.js";
 
 export default class TextFilter extends Filter {
-  protected static keys: Fuse.FuseOptionKeyObject[] = [
+  protected static keys: FuseOptionKeyObject<ICodeSystem_Concept>[] = [
     { name: "extension.valueString", weight: 0.6 },
     { name: "modifierExtension.valueString", weight: 0.4 },
   ];
@@ -15,23 +15,23 @@ export default class TextFilter extends Filter {
     logicalOperator: LogicalOperator.AND,
   };
 
-  public static initSearch(searchTerms: string[]): Fuse.FuseResult<ICodeSystem_Concept>[] {
-    let res: Fuse.FuseResult<ICodeSystem_Concept>[] = [];
+  public static initSearch(searchTerms: string[]): FuseResult<ICodeSystem_Concept>[] {
+    let res: FuseResult<ICodeSystem_Concept>[] = [];
     let termCount = searchTerms.length;
     const termCombs: string[][] = TextFilter.getCombinations(searchTerms);
 
     while (res.length < 1 && termCount > 0) {
       const termsByLength: string[][] = termCombs.filter((terms) => terms.length == termCount);
       const queryStr: string[] = TextFilter.getMultipleTermsQuery(termsByLength);
-      const query: Fuse.Expression[] = TextFilter.getQuery(queryStr);
+      const query: Expression[] = TextFilter.getQuery(queryStr);
       res = FuseSearch.doSearch(TextFilter.keys, query);
       termCount--;
     }
     return res;
   }
 
-  protected static getQuery(queryStr: string[]): Fuse.Expression[] {
-    const query: Fuse.Expression[] = [];
+  protected static getQuery(queryStr: string[]): Expression[] {
+    const query: Expression[] = [];
     queryStr.forEach((str) =>
       query.push({ "extension.valueString": str }, { "modifierExtension.valueString": str }),
     );
