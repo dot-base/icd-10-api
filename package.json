@@ -17,7 +17,7 @@
     "production": "node -r tsconfig-paths/register build/server.js"
   },
   "dependencies": {
-    "@ahryman40k/ts-fhir-types": "4.0.34",
+    "@ahryman40k/ts-fhir-types": "4.0.39",
     "body-parser": "^1.19.0",
     "express": "^4.18.2",
     "fuse.js": "^6.4.0",
