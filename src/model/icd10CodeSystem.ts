@@ -13,7 +13,7 @@ class ICD10gm {
     this.codesystem = ICD10gm.initCodesystem();
     this.processedCodesystem = ICD10gm.preProcessCodeSystem(this.codesystem);
     this.system = "http://fhir.de/CodeSystem/bfarm/icd-10-gm";
-    this.version = "2024"
+    this.version = "2024";
   }
 
   private static initCodesystem(): R4.ICodeSystem {

@@ -1,14 +1,15 @@
 import { FuseResult } from "fuse.js";
-import { ICodeSystem_Concept } from "@ahryman40k/ts-fhir-types/lib/R4";
+import { ICodeSystem_Concept, ICodeableConcept } from "@ahryman40k/ts-fhir-types/lib/R4";
 import CodeFilter from "@/services/codeFilter";
 import TextFilter from "@/services/textFilter";
 import HTTPError from "@/utils/HTTPError";
+import ICD10gm from "@/model/icd10CodeSystem";
 
 export class ICD10Controller {
   private static icd10Regex = new RegExp("[A-TV-Z][0-9][0-9].?[0-9A-TV-Z]{0,4}", "i");
   private static stripRegex = new RegExp("[ -]+");
 
-  public static getFiltered(searchstring: string): FuseResult<ICodeSystem_Concept>[] {
+  public static getFiltered(searchstring: string): FuseResult<ICodeableConcept>[] {
     const searchTerms: string[] = ICD10Controller.splitTerms(searchstring);
     const icd10Codes: string[] = ICD10Controller.filterCodes(searchTerms);
 
@@ -28,13 +29,7 @@ export class ICD10Controller {
       );
 
     const searchResult = TextFilter.initSearch(searchTerms);
-
-    /**
-     * copy the results before removing extensions, otherwise
-     * we would change the actual dataset we are searching on
-     */
-    const searchResultCopy = JSON.parse(JSON.stringify(searchResult));
-    return ICD10Controller.removeExtensions(searchResultCopy);
+    return ICD10Controller.parseResultsToCodeableConcept(searchResult);
   }
 
   private static isICD10Code(str: string): boolean {
@@ -49,23 +44,35 @@ export class ICD10Controller {
     return str.split(ICD10Controller.stripRegex);
   }
 
-  /**
-   * Remove extensions added in ICD10gm.preProcessCodeSystem()
-   *
-   * ICD10gm.preProcessCodeSystem() adds extensions to the FHIR objects in
-   * order to facilitate better search results. Those extensions are invalid
-   * according to the FHIR standard though (not having an .url field). Therefor
-   * the extensions need to be removed before delivery of the search results.
-   *
-   * Fixes https://github.com/dot-base/icd-10-api/issues/24
-   */
-  private static removeExtensions(
-    res: FuseResult<ICodeSystem_Concept>[],
-  ): FuseResult<ICodeSystem_Concept>[] {
-    res.forEach((r) => {
-      r.item.extension = undefined;
-      r.item.modifierExtension = undefined;
+  private static parseResultsToCodeableConcept(
+    results: FuseResult<ICodeSystem_Concept>[],
+  ): FuseResult<ICodeableConcept>[] {
+    const res: FuseResult<ICodeableConcept>[] = [];
+    results.forEach((r) => {
+      res.push(ICD10Controller.toCodeableConcept(r));
     });
+
     return res;
+  }
+
+  private static toCodeableConcept(
+    r: FuseResult<ICodeSystem_Concept>,
+  ): FuseResult<ICodeableConcept> {
+    return {
+      item: {
+        coding: [
+          {
+            code: r.item.code,
+            display: r.item.display,
+            system: ICD10gm.system,
+            version: ICD10gm.version,
+          },
+        ],
+        text: r.item.definition,
+      },
+      score: r.score,
+      matches: r.matches,
+      refIndex: r.refIndex,
+    };
   }
 }
