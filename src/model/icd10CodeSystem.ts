@@ -44,23 +44,23 @@ class ICD10gm {
     }
 
     processedCodesystem.concept = processedCodesystem.concept.filter((elem) =>
-      elem.property ? ICD10gm.isTypeICDCode(elem.property) : false
+      elem.property ? ICD10gm.isTypeICDCode(elem.property) : false,
     );
 
     const incompleteConcepts = processedCodesystem.concept.filter(
-      (concept) => !ICD10gm.isComplete(concept)
+      (concept) => !ICD10gm.isComplete(concept),
     );
     if (incompleteConcepts.length > 0) {
       const incompleteConceptsList = incompleteConcepts
         .map((concept) => `{code: ${concept.code}, display: ${concept.display}}`)
         .join(", ");
       logger.warn(
-        `WARNING: The ICD10 codesystem contains ${incompleteConcepts.length} incomplete concept(s) missing either code or display. The affected concepts are: ${incompleteConceptsList}.`
+        `WARNING: The ICD10 codesystem contains ${incompleteConcepts.length} incomplete concept(s) missing either code or display. The affected concepts are: ${incompleteConceptsList}.`,
       );
     }
 
     processedCodesystem.concept = processedCodesystem.concept.filter((concept) =>
-      ICD10gm.isComplete(concept)
+      ICD10gm.isComplete(concept),
     );
 
     processedCodesystem.concept = ICD10gm.trimAndCopySearchFields(processedCodesystem.concept);
@@ -70,7 +70,7 @@ class ICD10gm {
 
   private static isTypeICDCode(property: R4.ICodeSystem_Property1[]) {
     return property.some((prop) =>
-      prop.valueCode ? prop.valueCode === "category" && prop.code === "kind" : false
+      prop.valueCode ? prop.valueCode === "category" && prop.code === "kind" : false,
     );
   }
 
@@ -79,7 +79,7 @@ class ICD10gm {
   }
 
   private static trimAndCopySearchFields(
-    concept: R4.ICodeSystem_Concept[]
+    concept: R4.ICodeSystem_Concept[],
   ): R4.ICodeSystem_Concept[] {
     const trimRegex = new RegExp("[^0-9A-ZÄÖÜ]", "gi");
 

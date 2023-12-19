@@ -24,7 +24,7 @@ export class ICD10Controller {
     if (searchTerms.length > Number(process.env.MAX_SEARCH_WORDS))
       throw new HTTPError(
         `Search query exceeded max. amount of ${process.env.MAX_SEARCH_WORDS} allowed terms.`,
-        400
+        400,
       );
 
     const searchResult = TextFilter.initSearch(searchTerms);
@@ -60,7 +60,7 @@ export class ICD10Controller {
    * Fixes https://github.com/dot-base/icd-10-api/issues/24
    */
   private static removeExtensions(
-    res: Fuse.FuseResult<ICodeSystem_Concept>[]
+    res: Fuse.FuseResult<ICodeSystem_Concept>[],
   ): Fuse.FuseResult<ICodeSystem_Concept>[] {
     res.forEach((r) => {
       r.item.extension = undefined;

@@ -19,7 +19,7 @@ export default class FuseSearch {
 
   protected static doSearch(
     keys: Fuse.FuseOptionKeyObject[],
-    query: Fuse.Expression[]
+    query: Fuse.Expression[],
   ): Fuse.FuseResult<ICodeSystem_Concept>[] {
     const base = ICD10gm.processedCodesystem?.concept ?? [];
     const options = FuseSearch.getOptions(keys);
@@ -29,7 +29,7 @@ export default class FuseSearch {
   }
 
   private static getOptions(
-    keys: Fuse.FuseOptionKeyObject[]
+    keys: Fuse.FuseOptionKeyObject[],
   ): Fuse.IFuseOptions<ICodeSystem_Concept> {
     return {
       includeScore: true,

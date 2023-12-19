@@ -33,7 +33,7 @@ export default class TextFilter extends Filter {
   protected static getQuery(queryStr: string[]): Fuse.Expression[] {
     const query: Fuse.Expression[] = [];
     queryStr.forEach((str) =>
-      query.push({ "extension.valueString": str }, { "modifierExtension.valueString": str })
+      query.push({ "extension.valueString": str }, { "modifierExtension.valueString": str }),
     );
     return query;
   }
@@ -44,7 +44,7 @@ export default class TextFilter extends Filter {
     const subarr: string[][] = TextFilter.getCombinations(terms.slice(1));
     return subarr.concat(
       subarr.map((e) => e.concat([terms[0]])),
-      [[terms[0]]]
+      [[terms[0]]],
     );
   }
 
