@@ -1,4 +1,4 @@
-import Fuse from "fuse.js";
+import { FuseResult } from "fuse.js";
 import { ICodeSystem_Concept } from "@ahryman40k/ts-fhir-types/lib/R4";
 import CodeFilter from "@/services/codeFilter";
 import TextFilter from "@/services/textFilter";
@@ -8,7 +8,7 @@ export class ICD10Controller {
   private static icd10Regex = new RegExp("[A-TV-Z][0-9][0-9].?[0-9A-TV-Z]{0,4}", "i");
   private static stripRegex = new RegExp("[ -]+");
 
-  public static getFiltered(searchstring: string): Fuse.FuseResult<ICodeSystem_Concept>[] {
+  public static getFiltered(searchstring: string): FuseResult<ICodeSystem_Concept>[] {
     const searchTerms: string[] = ICD10Controller.splitTerms(searchstring);
     const icd10Codes: string[] = ICD10Controller.filterCodes(searchTerms);
 
@@ -24,7 +24,7 @@ export class ICD10Controller {
     if (searchTerms.length > Number(process.env.MAX_SEARCH_WORDS))
       throw new HTTPError(
         `Search query exceeded max. amount of ${process.env.MAX_SEARCH_WORDS} allowed terms.`,
-        400
+        400,
       );
 
     const searchResult = TextFilter.initSearch(searchTerms);
@@ -60,8 +60,8 @@ export class ICD10Controller {
    * Fixes https://github.com/dot-base/icd-10-api/issues/24
    */
   private static removeExtensions(
-    res: Fuse.FuseResult<ICodeSystem_Concept>[]
-  ): Fuse.FuseResult<ICodeSystem_Concept>[] {
+    res: FuseResult<ICodeSystem_Concept>[],
+  ): FuseResult<ICodeSystem_Concept>[] {
     res.forEach((r) => {
       r.item.extension = undefined;
       r.item.modifierExtension = undefined;
