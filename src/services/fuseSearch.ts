@@ -1,5 +1,5 @@
 import ICD10gm from "@/model/icd10CodeSystem";
-import Fuse from "fuse.js";
+import Fuse, { Expression, FuseOptionKeyObject, FuseResult, IFuseOptions } from "fuse.js";
 import { ICodeSystem_Concept } from "@ahryman40k/ts-fhir-types/lib/R4";
 import { QueryOptions } from "@/types/queryOptions";
 
@@ -18,9 +18,9 @@ export default class FuseSearch {
   }
 
   protected static doSearch(
-    keys: Fuse.FuseOptionKeyObject[],
-    query: Fuse.Expression[]
-  ): Fuse.FuseResult<ICodeSystem_Concept>[] {
+    keys: FuseOptionKeyObject<ICodeSystem_Concept>[],
+    query: Expression[],
+  ): FuseResult<ICodeSystem_Concept>[] {
     const base = ICD10gm.processedCodesystem?.concept ?? [];
     const options = FuseSearch.getOptions(keys);
     const index = Fuse.createIndex(keys, base);
@@ -29,8 +29,8 @@ export default class FuseSearch {
   }
 
   private static getOptions(
-    keys: Fuse.FuseOptionKeyObject[]
-  ): Fuse.IFuseOptions<ICodeSystem_Concept> {
+    keys: FuseOptionKeyObject<ICodeSystem_Concept>[],
+  ): IFuseOptions<ICodeSystem_Concept> {
     return {
       includeScore: true,
       includeMatches: true,
