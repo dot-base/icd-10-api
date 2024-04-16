@@ -1,4 +1,8 @@
+# macOS
 .DS_Store
+
+# npm
+.npm_cache
 node_modules
 build
 /dist
