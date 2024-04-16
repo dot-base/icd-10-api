@@ -6,7 +6,8 @@ services:
     user: ${USERID}
     working_dir: /var/workspace
     environment:
-            HOME: "/tmp" # This is needed so npm can create the cache at the default location ~/.npm
+      # default npm cache location (~/.npm) is not writeable in the container
+      npm_config_cache: /var/workspace/.npm_cache
     volumes:
       - ${DEV_OVERLAY_DIR}:/var/workspace/:cached
     ports:
