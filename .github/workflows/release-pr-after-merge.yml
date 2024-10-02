@@ -1,0 +1,21 @@
+name: Release PR After Merge
+
+on:
+  pull_request:
+    branches:
+      - release
+    types:
+      - closed
+
+jobs:
+  release-pr-after-merge:
+    name: Create Release
+    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.title, 'chore(release)')
+    uses: dot-base/.github/.github/workflows/release-pr-after-merge.yml@main
+    secrets:
+      GH_BOT_USER: ${{ secrets.GH_BOT_USER }}
+      GH_BOT_PAT: ${{ secrets.GH_BOT_PAT }}
+      CR_PAT: ${{ secrets.CR_PAT }}
+    with:
+      RELEASED_FROM_MAIN: ${{ github.event.pull_request.head == 'main' }}
+      SERVICE_TYPE: node
