@@ -1,4 +1,4 @@
-# ICD-10 API (German Version) 🧑‍⚕️👩🏿‍🔬
+# ICD-10 API (German Version) ⚕️🔟
 API to search the german version of the 10th revision of the International Statistical Classification of Diseases Database. 
 
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/dot-base/icd-10-api)](https://github.com/dot-base/icd-10-api/releases)
