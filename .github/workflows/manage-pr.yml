@@ -6,10 +6,6 @@ on:
       - main
       - release
       - 'sync/*'
-  pull_request_review:
-    types: 
-      - submitted
-      - edited
 
 jobs:
   manage-pr:
