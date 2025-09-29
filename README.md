@@ -155,7 +155,7 @@ Username: `admin` Password: `password`.
 ./dot-base/dot-base.sh stop
 ```
 
-### Cleanup 
+### Cleanup 🧹
 
 To undo initial setup, run:
 
