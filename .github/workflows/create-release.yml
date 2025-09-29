@@ -1,4 +1,4 @@
-name: ✨ Create Release PR
+name: 🆕 Create Release
 
 on: 
   workflow_dispatch:
@@ -9,11 +9,13 @@ on:
         default: "main"
 
 jobs:
-  create-release-pr:
-    name: Create Release PR
-    uses: dot-base/.github/.github/workflows/create-release-pr.yml@main
+  create-release:
+    name: Create Release
+    uses: dot-base/.github/.github/workflows/create-release.yml@feat/tag-based-release
     with:
       branch: ${{ inputs.branch }}
+      SERVICE_TYPE: node
     secrets:
       GH_BOT_USER: ${{ secrets.GH_BOT_USER }}
       GH_BOT_PAT: ${{ secrets.GH_BOT_PAT }}
+      CR_PAT: ${{ secrets.CR_PAT }}
