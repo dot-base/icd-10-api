@@ -11,7 +11,7 @@ on:
 jobs:
   create-release:
     name: Create Release
-    uses: dot-base/.github/.github/workflows/create-release.yml@feat/tag-based-release
+    uses: dot-base/.github/.github/workflows/create-release.yml@main
     with:
       branch: ${{ inputs.branch }}
       SERVICE_TYPE: node
